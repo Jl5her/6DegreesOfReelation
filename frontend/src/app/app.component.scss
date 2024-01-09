@@ -1,0 +1,16 @@
+#game {
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    font-family: FilmLetters, sans-serif;
+    font-size: 5rem;
+    text-align: center;
+  }
+
+
+}
