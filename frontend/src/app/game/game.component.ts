@@ -1,7 +1,6 @@
-import { NgIf } from "@angular/common";
-import { Component } from '@angular/core';
-import { AppModule } from "../app.module";
-import { GameService, Movie } from "../shared/game.service";
+import { Component, Input, Output } from '@angular/core';
+import  { ActivatedRoute } from "@angular/router";
+import { type Cast, GameService, Movie } from "../shared/game.service";
 
 @Component({
   selector: 'app-game',
@@ -9,16 +8,54 @@ import { GameService, Movie } from "../shared/game.service";
   styleUrl: './game.component.scss'
 })
 export class GameComponent {
-  title = 'frontend';
   start: Movie | undefined;
   end: Movie | undefined;
+
+  showSolution: boolean = false;
+
   gameId: string | undefined;
 
-  constructor(public gameService: GameService) {
+  @Input()
+  @Output()
+  firstAnswer: Cast | undefined
+
+  @Input()
+  @Output()
+  thirdAnswer: Cast | undefined
+
+  @Input()
+  @Output()
+  fifthAnswer: Cast | undefined
+
+  @Input()
+  @Output()
+  seventhAnswer: Cast | undefined
+
+  @Input()
+  @Output()
+  ninthAnswer: Cast | undefined
+
+  @Input()
+  @Output()
+  secondAnswer: Movie | undefined
+
+  @Input()
+  @Output()
+  fourthAnswer: Movie | undefined
+  @Input()
+  @Output()
+  sixthAnswer: Movie | undefined
+  @Input()
+  @Output()
+  eighthAnswer: Movie | undefined
+
+  constructor(public gameService: GameService, private _activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.fetchGame()
+    this._activatedRoute.paramMap.subscribe(paramMap => {
+      this.fetchGame(paramMap.get('id') ?? undefined)
+    })
   }
 
   loadGame() {
@@ -35,7 +72,7 @@ export class GameComponent {
   }
 
   randomize() {
-    return this.fetchGame()
+    return this.fetchGame(Math.floor(Math.random() * 10000).toString())
   }
 
   getYear(release_date: string): number {

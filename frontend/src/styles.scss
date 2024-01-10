@@ -21,6 +21,11 @@ body {
   justify-content: center;
   align-items: center;
 
+
+  &.vertical{
+    flex-direction: column;
+  }
+
   .poster {
     margin: 0.5rem;
     display: flex;
@@ -38,12 +43,12 @@ body {
   }
 
   .cast-img {
-    width: 6rem;
+    width: 4rem;
     height: auto;
   }
 
   .movie-img {
-    width: 8rem;
+    width: 6rem;
     height: auto;
   }
 

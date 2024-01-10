@@ -40,6 +40,12 @@ const movie_credits = async (movie_id: number): Promise<Cast[]> => {
   return data.cast
 }
 
+
+export const checkCredit = async (movie_id: number, cast_id: number) => {
+  const credits = await movie_credits(movie_id)
+  return credits.find(c => c.id == cast_id) !== undefined
+}
+
 export const searchMovie = async (query: string): Promise<Movie[]> => {
   const q = new URLSearchParams({
     query,

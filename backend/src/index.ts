@@ -14,26 +14,35 @@ const service = new Service()
 
 app.get('/generate', service.generateGame)
 app.get('/game/:id', (context) => {
-  return service.getGame(context.params.id)
+  return service.getGame(parseInt(context.params.id))
 })
 app.get('/game/:id/solution', (context) => {
   return service.getSolution(context.params.id)
 })
 
 app.get('/search_movie', (context) => {
-  if(context.query.q) {
+  if (context.query.q) {
     return service.searchMovie(context.query.q)
   }
-  
+
   context.set.status = 400
   return null;
 })
 app.get('/search_person', (context) => {
-  if(context.query.q) {
+  if (context.query.q) {
     return service.searchPerson(context.query.q)
   }
 
   context.set.status = 400
+  return null;
+})
+
+app.get('/check_credit', (context) => {
+  if (context.query.cast && context.query.movie) {
+    const movie_id = parseInt(context.query.movie)
+    const cast_id = parseInt(context.query.cast)
+    return service.checkCredit(movie_id, cast_id)
+  }
   return null;
 })
 

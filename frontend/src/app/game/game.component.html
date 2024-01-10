@@ -1,53 +1,57 @@
 <h1>Reel-Ation</h1>
 
-<div class="sequence">
-  <!--  Start-->
-  <div class="poster" *ngIf="start != undefined">
-    <img [alt]="start.title" class="movie-img" [src]="getPosterPath(start.poster_path)" [matTooltip]="start.title">
-    <!--    <h3>{{ start.title }} ({{ getYear(start.release_date) }})</h3>-->
-
-    <mat-form-field>
-      <input matInput disabled [value]="start.title" [alt]="start.title" [matTooltip]="start.title" />
-    </mat-form-field>
-  </div>
-
-  <app-person-input />
-
-  <app-movie-input />
-  <app-person-input />
-
-  <app-movie-input />
-  <app-person-input />
-
-  <app-movie-input/>
-  <app-person-input />
-
-  <app-movie-input/>
-  <app-person-input />
-
-  <!--  End-->
-  <div class="poster" *ngIf="end != undefined">
-    <img [alt]="end.title" class="movie-img" [src]="getPosterPath(end.poster_path)" [matTooltip]="end.title">
-    <!--    <h3>{{ end.title }} ({{ getYear(end.release_date) }})</h3>-->
-    <mat-form-field>
-      <input matInput disabled [value]="end.title" [alt]="end.title" [matTooltip]="end.title" />
-    </mat-form-field>
-  </div>
-</div>
-
 
 <div id="actions">
+
+  <button mat-raised-button color="primary" (click)="loadGame()">
+    Load
+  </button>
+
   <mat-form-field>
     <input matInput [(ngModel)]="this.gameId" />
   </mat-form-field>
 
-  <button mat-raised-button color="primary" matSuffix (click)="loadGame()">
-    Load
-  </button>
-
-  <button mat-raised-button color="accent" matSuffix (click)="randomize()">
+  <button mat-raised-button color="accent" (click)="randomize()">
     Randomize
   </button>
 </div>
 
-<app-solution-viewer [gameId]="this.gameId"/>
+<div class="sequence vertical">
+  <!--  Start-->
+  <div class="poster" *ngIf="start != undefined">
+    <img [alt]="start.title" class="movie-img" [src]="getPosterPath(start.poster_path)" [matTooltip]="start.title">
+    <h3>{{ start.title }} ({{ getYear(start.release_date) }})</h3>
+
+    <!--    <mat-form-field>-->
+    <!--      <input matInput disabled [value]="start.title" [alt]="start.title" [matTooltip]="start.title" />-->
+    <!--    </mat-form-field>-->
+  </div>
+
+  <app-person-input [(value)]="this.firstAnswer" [checkAgainst]="[start, this.secondAnswer]" />
+
+  <app-movie-input [(value)]="this.secondAnswer" [checkAgainst]="[this.firstAnswer, this.thirdAnswer]" />
+  <app-person-input [(value)]="this.thirdAnswer" [checkAgainst]="[this.secondAnswer, this.fourthAnswer]"/>
+
+  <app-movie-input [(value)]="this.fourthAnswer" [checkAgainst]="[this.thirdAnswer, this.fifthAnswer]" />
+  <app-person-input [(value)]="this.fifthAnswer" [checkAgainst]="[this.fourthAnswer, this.sixthAnswer]" />
+
+  <app-movie-input [(value)]="this.sixthAnswer" [checkAgainst]="[this.fifthAnswer, this.seventhAnswer]"/>
+  <app-person-input [(value)]="this.seventhAnswer" [checkAgainst]="[this.sixthAnswer, this.eighthAnswer]" />
+
+  <app-movie-input [(value)]="this.eighthAnswer" [checkAgainst]="[this.seventhAnswer, this.ninthAnswer]"/>
+  <app-person-input [(value)]="this.ninthAnswer" [checkAgainst]="[this.eighthAnswer, this.end]" />
+
+  <!--  End-->
+  <div class="poster" *ngIf="end != undefined">
+    <img [alt]="end.title" class="movie-img" [src]="getPosterPath(end.poster_path)" [matTooltip]="end.title">
+    <h3>{{ end.title }} ({{ getYear(end.release_date) }})</h3>
+    <!--    <mat-form-field>-->
+    <!--      <input matInput disabled [value]="end.title" [alt]="end.title" [matTooltip]="end.title" />-->
+    <!--    </mat-form-field>-->
+  </div>
+</div>
+
+<label>Show Solution</label>
+<mat-slide-toggle  [checked]="showSolution" (change)="showSolution = !showSolution"/>
+
+<app-solution-viewer *ngIf="this.showSolution" [gameId]="this.gameId" />

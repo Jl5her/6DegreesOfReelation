@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
-import type { Movie } from "../shared/game.service";
+import { catchError, debounceTime, distinctUntilChanged, forkJoin, map, Subject, switchMap } from "rxjs";
+import { type Cast, GameService, type Movie } from "../shared/game.service";
 import { SearchService } from "../shared/search.service";
 
 @Component({
@@ -12,13 +12,17 @@ import { SearchService } from "../shared/search.service";
 })
 export class MovieInputComponent {
   private searchSubject = new Subject<string>();
-  selectedMovie: Movie | undefined
+  // selectedMovie: Movie | undefined
   suggestions: Movie[] = [];
 
-  @Output() change: EventEmitter<Movie> = new EventEmitter();
+  correct: boolean | undefined
 
+  @Input() checkAgainst: (Cast | undefined)[] | undefined;
 
-  constructor(public searchService: SearchService) {
+  @Input() value: Movie | undefined;
+  @Output() valueChange: EventEmitter<Movie> = new EventEmitter();
+
+  constructor(public searchService: SearchService, private gameService: GameService) {
     this.searchSubject
       .pipe(
         debounceTime(500),
@@ -29,9 +33,30 @@ export class MovieInputComponent {
     })
   }
 
-  selectedChange(movie: Movie) {
-    this.selectedMovie = movie;
-    this.change.emit(movie);
+  getClass(): string {
+    if (this.correct == true) return "correct";
+    if (this.correct == false) return "incorrect";
+    return "";
+  }
+
+  async selectedChange(movie: Movie) {
+    this.value = movie;
+    this.valueChange.emit(movie);
+
+    if (this.checkAgainst) {
+      forkJoin(this.checkAgainst.map(async c => {
+        if(!c) return false;
+        return this.gameService.checkCredits(movie, c)
+            .pipe(
+              map(res => res.correct),
+              catchError(err => {
+                return [];
+              }))
+        }))
+        .subscribe(res => {
+          console.log(res)
+        })
+    }
   }
 
   onInputChange(event: Event): void {
@@ -46,9 +71,9 @@ export class MovieInputComponent {
   }
 
   posterPath() {
-    if (this.selectedMovie == undefined) {
+    if (this.value == undefined) {
       return "/assets/questionmark.jpg"
     }
-    return 'https://image.tmdb.org/t/p/w500' + this.selectedMovie.poster_path
+    return 'https://image.tmdb.org/t/p/w500' + this.value.poster_path
   }
 }

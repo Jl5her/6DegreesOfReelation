@@ -83,4 +83,13 @@ export class GameService {
       message;
     })
   }
+
+  checkCredits(movie: Movie, person: Cast) {
+    const q = new URLSearchParams({
+      movie: movie.id.toString(),
+      cast: person.id.toString()
+    })
+    return this.httpClient.get<{ correct: boolean }>(`${this.endpoint}/check_credit?${q}`)
+      .pipe(retry(1), catchError(this.processError))
+  }
 }

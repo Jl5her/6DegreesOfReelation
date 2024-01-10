@@ -1,5 +1,5 @@
 import { Game, SearchResults, Solution } from "./schema";
-import { make_solution, searchMovie, searchPerson } from './tmdb'
+import { checkCredit, make_solution, searchMovie, searchPerson } from './tmdb'
 
 const CACHE_TIME = 1000 * 60 * 30
 
@@ -8,21 +8,22 @@ export class Service {
 
   }
 
-  async getGame(id: string) {
-    return await Game.findOne({ id })
+  async getGame(id: number) {
+    let game = await Game.findOne({ id })
+    if (!game) {
+      game = await this.generateGame(id)
+    }
+    return game;
   }
 
-  async generateGame() {
+  async generateGame(id: number | undefined = undefined) {
     let steps = await make_solution()
 
     while (steps == undefined) {
       steps = await make_solution();
     }
 
-    let id = (await Game.findOne({}).sort("-id"))?.id ?? 0
-
-    console.log('max id: ' + id)
-    id++;
+    id ??= (await Game.findOne({}).sort("-id"))?.id + 1 ?? 0
 
     const game = new Game({
       id,
@@ -71,7 +72,7 @@ export class Service {
 
       const results = await searchPerson(query);
       searchResults = new SearchResults({
-        query, 
+        query,
         type: 'person',
         results,
         time: new Date()
@@ -81,5 +82,9 @@ export class Service {
     }
 
     return searchResults.results
+  }
+
+  async checkCredit(movie_id: number, cast_id: number) {
+    return { correct: await checkCredit(movie_id, cast_id) }
   }
 }

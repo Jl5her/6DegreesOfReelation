@@ -3,11 +3,12 @@
 
 <!--</div>-->
 
-<div class="poster">
-  <img [alt]="selectedMovie == undefined ? 'unknown' : selectedMovie.title" class="movie-img" [src]="posterPath()">
+<!--<div class="poster">-->
+<!--  <img [alt]="selectedMovie == undefined ? 'unknown' : selectedMovie.title" class="movie-img" [src]="posterPath()">-->
   <mat-form-field>
     <input matInput
-           placeholder="Type to search..."
+           [class]="getClass()"
+           placeholder="Type a Movie..."
            (input)="onInputChange($event)"
            [matAutocomplete]="auto" />
     <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectedChange($event.option.value)">
@@ -16,4 +17,4 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-</div>
+<!--</div>-->

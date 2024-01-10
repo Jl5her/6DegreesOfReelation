@@ -6,7 +6,8 @@ import { GenerateComponent } from "./generate/generate.component";
 
 const routes: Routes = [
   { path: '', component: GameComponent },
-  { path: 'generate', component: GenerateComponent }
+  { path: 'generate', component: GenerateComponent },
+  { path: 'game/:id', component: GameComponent }
 ]
 
 @NgModule({
