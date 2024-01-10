@@ -3,3 +3,58 @@
   src: url(assets/font/FilmLetters.ttf) format("truetype");
   font-family: FilmLetters;
 }
+
+
+html, body {
+  height: 100%;
+  background: #ccc;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.sequence {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .poster {
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  img {
+    padding: 0.5rem;
+    //border: 1px solid black;
+    border-radius: 3px;
+    margin: 0.5rem;
+    box-shadow: 1px 1px 8px #AAA;
+    background: white;
+  }
+
+  .cast-img {
+    width: 6rem;
+    height: auto;
+  }
+
+  .movie-img {
+    width: 8rem;
+    height: auto;
+  }
+
+  .step {
+    display: flex;
+  }
+
+  .poster {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

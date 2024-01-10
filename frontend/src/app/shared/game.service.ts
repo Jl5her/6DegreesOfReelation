@@ -36,6 +36,8 @@ export type Cast = {
 
 export type Game = { start: Movie, end: Movie, id: string }
 
+export type Solution = { id: string, steps: { cast: Cast | undefined, movie: Movie }[] }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -51,9 +53,21 @@ export class GameService {
     })
   }
 
-  getGame(): Observable<Game> {
+  getGame(gameId: string | undefined = undefined): Observable<Game> {
     return this.httpClient
-      .get<Game>(this.endpoint + '/game/1')
+      .get<Game>(this.endpoint + (gameId ? `/game/${gameId}` : '/generate'))
+      .pipe(retry(1), catchError(this.processError))
+  }
+
+  getSolution(gameId: string): Observable<Solution> {
+    return this.httpClient
+      .get<Solution>(this.endpoint + `/game/${gameId}/solution`)
+      .pipe(retry(1), catchError(this.processError))
+  }
+
+  generateSolution(): Observable<Solution> {
+    return this.httpClient
+      .get<Solution>(this.endpoint + '/generate')
       .pipe(retry(1), catchError(this.processError))
   }
 

@@ -7,11 +7,10 @@ dotenv.config()
 
 await mongoose.connect('mongodb://localhost:27017/mongoose-app')
 
-const service = new Service()
-
-// await mongoose.disconnect()
 
 const app = new Elysia()
+
+const service = new Service()
 
 app.get('/generate', service.generateGame)
 app.get('/game/:id', (context) => {
@@ -19,6 +18,23 @@ app.get('/game/:id', (context) => {
 })
 app.get('/game/:id/solution', (context) => {
   return service.getSolution(context.params.id)
+})
+
+app.get('/search_movie', (context) => {
+  if(context.query.q) {
+    return service.searchMovie(context.query.q)
+  }
+  
+  context.set.status = 400
+  return null;
+})
+app.get('/search_person', (context) => {
+  if(context.query.q) {
+    return service.searchPerson(context.query.q)
+  }
+
+  context.set.status = 400
+  return null;
 })
 
 

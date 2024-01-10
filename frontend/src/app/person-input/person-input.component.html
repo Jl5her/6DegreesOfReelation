@@ -1,10 +1,6 @@
-<!--<div class="poster">-->
-<!--  <img alt="unknown" class="cast-img" src="/assets/questionmark.jpg">-->
-
-<!--</div>-->
 
 <div class="poster">
-  <img [alt]="selectedMovie == undefined ? 'unknown' : selectedMovie.title" class="movie-img" [src]="posterPath()">
+  <img [alt]="selectedPerson == undefined ? 'unknown' : selectedPerson.name" class="cast-img" [src]="posterPath()">
   <mat-form-field>
     <input matInput
            placeholder="Type to search..."

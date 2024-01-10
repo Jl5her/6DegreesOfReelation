@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
+import type { Movie } from "../shared/game.service";
 import { SearchService } from "../shared/search.service";
 
 @Component({
@@ -11,7 +12,10 @@ import { SearchService } from "../shared/search.service";
 })
 export class MovieInputComponent {
   private searchSubject = new Subject<string>();
-  suggestions: string[] = [];
+  selectedMovie: Movie | undefined
+  suggestions: Movie[] = [];
+
+  @Output() change: EventEmitter<Movie> = new EventEmitter();
 
 
   constructor(public searchService: SearchService) {
@@ -19,15 +23,32 @@ export class MovieInputComponent {
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
-        switchMap((query: string) => this.searchService.getAutocompleteSuggestions(query))
+        switchMap((query: string) => this.searchService.searchMovies(query))
       ).subscribe((suggestions) => {
       this.suggestions = suggestions
     })
   }
 
+  selectedChange(movie: Movie) {
+    this.selectedMovie = movie;
+    this.change.emit(movie);
+  }
+
   onInputChange(event: Event): void {
     var value = (event.target as HTMLInputElement).value
-    console.log(`Searching value ${value}`)
     this.searchSubject.next(value);
+  }
+
+  displayFn(movie?: Movie): string {
+    if (!movie) return "";
+    const year = movie.release_date.split('-')[0]
+    return `${movie.title} (${year})`
+  }
+
+  posterPath() {
+    if (this.selectedMovie == undefined) {
+      return "/assets/questionmark.jpg"
+    }
+    return 'https://image.tmdb.org/t/p/w500' + this.selectedMovie.poster_path
   }
 }

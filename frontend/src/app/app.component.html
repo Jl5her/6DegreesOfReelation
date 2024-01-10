@@ -1,19 +1,1 @@
-<div id="game">
-  <h1>Reel-Ation</h1>
-
-  <h3 *ngIf="start != undefined">{{ start.title }} ({{ getYear(start.release_date) }})</h3>
-  <app-movie-input/>
-  <app-movie-input/>
-  <app-movie-input/>
-  <app-movie-input/>
-  <app-movie-input/>
-  <app-movie-input/>
-  <app-movie-input/>
-
-
-  <h3 *ngIf="end != undefined">{{ end.title }} ({{ getYear(end.release_date) }})</h3>
-
-</div>
-
-
 <router-outlet></router-outlet>

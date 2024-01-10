@@ -1,12 +1,14 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import type { Observable } from "rxjs";
+import type { Cast, Movie } from "./game.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
-  endpoint = 'http://localhost/search'
+  movie_endpoint = 'http://localhost/search_movie'
+  person_endpoint = 'http://localhost/search_person'
 
   constructor(private httpClient: HttpClient) {
 
@@ -18,8 +20,15 @@ export class SearchService {
     })
   }
 
-  getAutocompleteSuggestions(query: string): Observable<string[]> {
-    const apiUrl = `${this.endpoint}/`
-    return this.httpClient.get<string[]>(apiUrl);
+  searchMovies(query: string): Observable<Movie[]> {
+    return this.httpClient.get<Movie[]>(this.movie_endpoint, {
+      params: { q: query }
+    });
+  }
+
+  searchPersons(query: string): Observable<Cast[]> {
+    return this.httpClient.get<Cast[]>(this.person_endpoint, {
+      params: { q: query }
+    })
   }
 }

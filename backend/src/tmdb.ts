@@ -1,43 +1,5 @@
-type PagedResult<T> = {
-  page: number,
-  results: [T],
-  total_pages: number,
-  total_results: number
-}
-
-type Movie = {
-  adult: boolean,
-  backdrop_path: string,
-  genre_ids: [number],
-  id: number,
-  original_language: string,
-  original_title: string,
-  overview: string,
-  popularity: number,
-  poster_path: string,
-  release_date: string,
-  title: string,
-  video: boolean,
-  vote_average: number,
-  vote_count: number
-}
-
-type Cast = {
-  adult: boolean,
-  gender: number,
-  id: number,
-  known_for_department: string,
-  name: string,
-  original_name: string,
-  popularity: number,
-  profile_path?: string,
-  cast_id: number,
-  character: string,
-  credit_id: string,
-  order: number
-}
-
 import fetch from 'node-fetch-cache'
+import type { Cast, Movie, PagedResult, Solution } from "reel-ation";
 
 const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMDZlZDgzNDI3NjkzYWIwMjZhMTZhMjhiMDIwY2QxNCIsInN1YiI6IjYwYzgyZGYyNDgzMzNhMDA0MWJkYzBjNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7HIjQvsvJmUfAQQBPlBJ2l9aDYoAOqDCufWsi8teRnM"
 
@@ -45,6 +7,7 @@ const filters = {
   'primary_release_date.gte': '1980-01-01',
   'primary_release_date.lte': '2020-01-01',
   'sort_by': 'popularity.desc',
+  'language': 'en-US',
   'vote_count.gte': '1000',
   'vote_average.gte': '7'
 }
@@ -75,6 +38,28 @@ const movie_credits = async (movie_id: number): Promise<Cast[]> => {
   const res = await fetch(`${url}/movie/${movie_id}/credits`, options)
   const data = await res.json() as { id: number, cast: Cast[] }
   return data.cast
+}
+
+export const searchMovie = async (query: string): Promise<Movie[]> => {
+  const q = new URLSearchParams({
+    query,
+    'include_adult': 'false',
+    'language': 'en-US'
+  })
+  const res = await fetch(`${url}/search/movie?${q}`, options)
+  const data = await res.json() as { page: number, results: Movie[] }
+  return data.results
+}
+
+export const searchPerson = async (query: string): Promise<Cast[]> => {
+  const q = new URLSearchParams({
+    query,
+    'include_adult': 'false',
+    'language': 'en-US'
+  })
+  const res = await fetch(`${url}/search/person?${q}`, options)
+  const data = await res.json() as { page: number, results: Cast[] }
+  return data.results
 }
 
 const get_top = async () => {
@@ -116,67 +101,125 @@ function randomChoice<T>(arr: T[]): T {
   return arr[Math.floor(arr.length * Math.random())]
 }
 
-function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-const make_game = async (): Promise<{ movie: Movie, cast: Cast }[]> => {
-  let movies = await filtered_top()
-
-  console.log(`Get ${movies.length} movie(s)`)
-  let movie = randomChoice(movies)
-
-  const previous_movies = [movie.id]
-  const previous_cast: number[] = []
-
-  console.log("DELAY")
-  await delay(1000)
-
-  console.log(`Starting with ${movie.title}`)
-
-  var game = []
-
-  let cast: Cast;
-  for (let i = 0; i < 7; i++) {
-    let top_cast = await get_top_cast(movie.id)
-    while (true) {
-      cast = randomChoice(top_cast)
-      movies = await get_top_appearances(cast.id)
-      while (previous_cast.includes(cast.id) && movies.length < 3) {
-        cast = randomChoice(top_cast)
-        movies = await get_top_appearances(cast.id)
-        console.log(`Random cast: ${cast.name}`)
-      }
-
-      if (movies.length == 1) {
-        continue;
-      }
-      
-      console.log(`  Trying ${cast.name}...`)
-
-      movie = randomChoice(movies)
-      while (previous_movies.includes(movie.id)) {
-        movie = randomChoice(movies)
-        console.log(`Random movie: ${movie.title} (${movie.id})`)
-      }
-
-      previous_movies.push(movie.id)
-      previous_cast.push(cast.id)
-      break;
-    }
-
-    console.log(`Moving on with ${cast.name}`)
-    console.log(`Moving on with ${movie.title}`)
-
-    game.push({
-      cast,
-      movie
-    })
+function shuffle<T>(array: T[]): T[] {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]
   }
-
-  console.log("Done")
-
-  return game
+  return array;
 }
 
-export { make_game }
+export const make_solution = async (): Promise<Solution | undefined> => {
+  let movies = shuffle(await filtered_top())
+
+  const previous_cast: string[] = []
+  const previous_movies: string[] = []
+
+  for (let firstMovie of movies) {
+    console.log(`Starting with ${firstMovie.title} (${previous_movies.join(',')})`)
+    previous_movies.push(firstMovie.id.toString())
+
+    const firstMovieCast = shuffle(await get_top_cast(firstMovie.id))
+    for (let firstCastMember of firstMovieCast) {
+
+      const firstCastMovies = shuffle(await get_top_appearances(firstCastMember.id))
+        .filter(movie => !previous_movies.includes(movie.id.toString()))
+
+      if (firstCastMovies.length < 3) continue;
+      console.log(`Going with ${firstCastMember.name} (${previous_cast.join(',')})`)
+      previous_cast.push(firstCastMember.id.toString())
+
+      // Second iteration
+      for (let secondMovie of firstCastMovies) {
+        console.log(`Trying 2nd movie: ${secondMovie.title} (${previous_movies.join(',')})`)
+        previous_movies.push(secondMovie.id.toString())
+
+        const secondMovieCast = shuffle(await get_top_cast(secondMovie.id))
+          .filter(cast => !previous_cast.includes(cast.id.toString()))
+
+        for (let secondCastMember of secondMovieCast) {
+
+          const secondCastMovies = shuffle(await get_top_appearances(secondCastMember.id))
+            .filter(movie => !previous_movies.includes(movie.id.toString()))
+
+          if (secondCastMovies.length < 3) continue;
+          console.log(`Going with ${secondCastMember.name} for second (${previous_cast.join(',')})`)
+          previous_cast.push(secondCastMember.id.toString())
+
+          // Third iteration
+          for (let thirdMovie of secondCastMovies) {
+            console.log(`Trying 3rd movie: ${thirdMovie.title} (${previous_movies.join(',')})`)
+            previous_movies.push(thirdMovie.id.toString())
+
+            const thirdMovieCast = shuffle(await get_top_cast(thirdMovie.id))
+              .filter(cast => !previous_cast.includes(cast.id.toString()))
+
+            for (let thirdCastMember of thirdMovieCast) {
+
+              const thirdCastMovies = shuffle(await get_top_appearances(thirdCastMember.id))
+                .filter(movie => !previous_movies.includes(movie.id.toString()))
+
+              if (thirdCastMovies.length < 3) continue;
+              console.log(`Going with ${thirdCastMember.name} for third (${previous_cast.join(',')})`)
+              previous_cast.push(thirdCastMember.id.toString())
+
+              // Fourth iteration
+              for (let fourthMovie of thirdCastMovies) {
+                console.log(`Trying 4th movie: ${fourthMovie.title} (${previous_movies.join(',')})`)
+                previous_movies.push(fourthMovie.id.toString())
+
+                const fourthMovieCast = shuffle(await get_top_cast(fourthMovie.id))
+                  .filter(cast => !previous_cast.includes(cast.id.toString()))
+
+                for (let fourthCastMember of fourthMovieCast) {
+                  const fourthCastMovies = shuffle(await get_top_appearances(fourthCastMember.id))
+                    .filter(movie => !previous_movies.includes(movie.id.toString()))
+
+                  if (fourthCastMovies.length < 3) continue;
+                  console.log(`Going with ${fourthCastMember.name} for fourth (${previous_cast.join(',')})`)
+                  previous_cast.push(fourthCastMember.id.toString())
+
+                  // Fifth iteration
+                  for (let fifthMovie of fourthCastMovies) {
+                    console.log(`Trying 5th movie: ${fifthMovie.title} (${previous_movies.join(',')})`)
+                    previous_movies.push(fifthMovie.id.toString())
+
+                    const fifthMovieCast = shuffle(await get_top_cast(fifthMovie.id))
+                      .filter(cast => !previous_cast.includes(cast.id.toString()))
+
+                    for (let fifthCastMember of fifthMovieCast) {
+                      const fifthCastMovies = shuffle(await get_top_appearances(fifthCastMember.id))
+                        .filter(movie => !previous_movies.includes(movie.id.toString()))
+
+                      if (fifthCastMovies.length < 3) continue;
+                      console.log(`Going with ${fifthCastMember.name} for fifth (${previous_cast.join(',')})`)
+
+                      // Sixth iteration
+                      return [
+                        { movie: firstMovie, cast: undefined },
+                        { movie: secondMovie, cast: firstCastMember },
+                        { movie: thirdMovie, cast: secondCastMember },
+                        { movie: fourthMovie, cast: thirdCastMember },
+                        { movie: fifthMovie, cast: fourthCastMember },
+                        { movie: randomChoice(fifthCastMovies), cast: fifthCastMember }
+                      ]
+                    }
+                    previous_movies.pop()
+                  }
+                  previous_cast.pop();
+                }
+                previous_movies.pop()
+              }
+              previous_cast.pop();
+            }
+            previous_movies.pop()
+          }
+          previous_cast.pop();
+        }
+        previous_movies.pop();
+      }
+      previous_cast.pop();
+    }
+    previous_movies.pop()
+  }
+}

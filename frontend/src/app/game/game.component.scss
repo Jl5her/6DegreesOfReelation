@@ -1,0 +1,13 @@
+h1 {
+  font-family: FilmLetters, sans-serif;
+  font-size: 5rem;
+  text-align: center;
+}
+
+#actions {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+}

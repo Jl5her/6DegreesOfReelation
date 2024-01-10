@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose'
 
 const gameSchema = new mongoose.Schema(
   {
-    id: { type: String, required: true },
+    id: { type: Number, required: true },
     start: { type: Object, required: true },
     end: { type: Object, required: true }
   },
