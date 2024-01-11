@@ -1,3 +1,4 @@
+import { cors } from "@elysiajs/cors";
 import dotenv from 'dotenv'
 import Elysia from "elysia";
 import * as mongoose from 'mongoose'
@@ -10,9 +11,13 @@ await mongoose.connect('mongodb://localhost:27017/mongoose-app')
 
 const app = new Elysia()
 
+app.use(cors())
+
 const service = new Service()
 
-app.get('/generate', service.generateGame)
+app.get('/generate', () => {
+  return service.generateGame()
+})
 app.get('/game/:id', (context) => {
   return service.getGame(parseInt(context.params.id))
 })
@@ -44,6 +49,16 @@ app.get('/check_credit', (context) => {
     return service.checkCredit(movie_id, cast_id)
   }
   return null;
+})
+
+app.get('/check_answer', (context) => {
+  if(context.query.movie1 == undefined || context.query.movie2 == undefined) {
+    return null;
+  }
+  const movie1 = parseInt(context.query.movie1)
+  const movie2 = parseInt(context.query.movie2)
+  
+  return service.checkAnswer(movie1, movie2)
 })
 
 

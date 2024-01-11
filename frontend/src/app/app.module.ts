@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -12,6 +13,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from './app.component';
+import { CastIconComponent } from "./cast-icon/cast-icon.component";
 import { GameComponent } from "./game/game.component";
 import { GenerateComponent } from "./generate/generate.component";
 
@@ -26,7 +28,8 @@ import { SolutionViewerComponent } from "./solution-viewer/solution-viewer.compo
     GameComponent,
     MovieInputComponent,
     PersonInputComponent,
-    SolutionViewerComponent
+    SolutionViewerComponent,
+    CastIconComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { SolutionViewerComponent } from "./solution-viewer/solution-viewer.compo
     MatButtonModule,
     FormsModule,
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

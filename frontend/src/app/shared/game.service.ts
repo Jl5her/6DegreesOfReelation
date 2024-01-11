@@ -38,6 +38,8 @@ export type Game = { start: Movie, end: Movie, id: string }
 
 export type Solution = { id: string, steps: { cast: Cast | undefined, movie: Movie }[] }
 
+export type Result = { correct: boolean, cast: Cast[] }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -82,6 +84,15 @@ export class GameService {
     return throwError(() => {
       message;
     })
+  }
+
+  checkAnswer(movie1: Movie, movie2: Movie) {
+    const q = new URLSearchParams({
+      movie1: movie1.id.toString(),
+      movie2: movie2.id.toString()
+    })
+    return this.httpClient.get<Result>(`${this.endpoint}/check_answer?${q}`)
+      .pipe(retry(1), catchError(this.processError))
   }
 
   checkCredits(movie: Movie, person: Cast) {

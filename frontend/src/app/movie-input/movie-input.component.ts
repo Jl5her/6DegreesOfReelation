@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { catchError, debounceTime, distinctUntilChanged, forkJoin, map, Subject, switchMap } from "rxjs";
-import { type Cast, GameService, type Movie } from "../shared/game.service";
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
+import { type Movie } from "../shared/game.service";
 import { SearchService } from "../shared/search.service";
 
 @Component({
@@ -12,22 +12,23 @@ import { SearchService } from "../shared/search.service";
 })
 export class MovieInputComponent {
   private searchSubject = new Subject<string>();
-  // selectedMovie: Movie | undefined
-  suggestions: Movie[] = [];
 
+  suggestions: Movie[] = [];
   correct: boolean | undefined
 
-  @Input() checkAgainst: (Cast | undefined)[] | undefined;
+  valueString: string = "";
 
-  @Input() value: Movie | undefined;
-  @Output() valueChange: EventEmitter<Movie> = new EventEmitter();
+  // @Input() value: Movie | undefined;
 
-  constructor(public searchService: SearchService, private gameService: GameService) {
+
+  @Output() onSelected: EventEmitter<Movie> = new EventEmitter();
+
+  constructor(public searchService: SearchService) {
     this.searchSubject
       .pipe(
-        debounceTime(500),
+        debounceTime(200),
         distinctUntilChanged(),
-        switchMap((query: string) => this.searchService.searchMovies(query))
+        switchMap(q => this.searchService.searchMovies(q))
       ).subscribe((suggestions) => {
       this.suggestions = suggestions
     })
@@ -40,23 +41,8 @@ export class MovieInputComponent {
   }
 
   async selectedChange(movie: Movie) {
-    this.value = movie;
-    this.valueChange.emit(movie);
-
-    if (this.checkAgainst) {
-      forkJoin(this.checkAgainst.map(async c => {
-        if(!c) return false;
-        return this.gameService.checkCredits(movie, c)
-            .pipe(
-              map(res => res.correct),
-              catchError(err => {
-                return [];
-              }))
-        }))
-        .subscribe(res => {
-          console.log(res)
-        })
-    }
+    this.valueString = "";
+    this.onSelected.emit(movie);
   }
 
   onInputChange(event: Event): void {
@@ -68,12 +54,5 @@ export class MovieInputComponent {
     if (!movie) return "";
     const year = movie.release_date.split('-')[0]
     return `${movie.title} (${year})`
-  }
-
-  posterPath() {
-    if (this.value == undefined) {
-      return "/assets/questionmark.jpg"
-    }
-    return 'https://image.tmdb.org/t/p/w500' + this.value.poster_path
   }
 }

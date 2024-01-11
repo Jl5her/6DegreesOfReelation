@@ -46,6 +46,14 @@ export const checkCredit = async (movie_id: number, cast_id: number) => {
   return credits.find(c => c.id == cast_id) !== undefined
 }
 
+export const checkAnswer = async (movie1: number, movie2: number) => {
+  const credits1 = await movie_credits(movie1)
+  const credits2 = await movie_credits(movie2)
+
+  const common = credits1.filter(c1 => credits2.find(c2 => c2.name == c1.name) != undefined)
+  return { correct: common.length > 0, cast: common }
+}
+
 export const searchMovie = async (query: string): Promise<Movie[]> => {
   const q = new URLSearchParams({
     query,
@@ -201,6 +209,7 @@ export const make_solution = async (): Promise<Solution | undefined> => {
                       console.log(`Going with ${fifthCastMember.name} for fifth (${previous_cast.join(',')})`)
 
                       // Sixth iteration
+                      console.log('Finished!')
                       return [
                         { movie: firstMovie, cast: undefined },
                         { movie: secondMovie, cast: firstCastMember },

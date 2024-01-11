@@ -11,3 +11,31 @@ h1 {
   align-items: center;
   justify-content: center;
 }
+
+.cast-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.guess {
+  display: flex;
+  flex-direction: column;
+
+  .cast-list {
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  .metadata {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+
+    p {
+      font-size: 1.75rem;
+      margin: 0.5rem;
+    }
+  }
+}

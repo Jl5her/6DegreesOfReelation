@@ -1,6 +1,11 @@
-import { Component, Input, Output } from '@angular/core';
-import  { ActivatedRoute } from "@angular/router";
-import { type Cast, GameService, Movie } from "../shared/game.service";
+import { Component } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { type Cast, GameService, Movie, type Result } from "../shared/game.service";
+
+type Guess = {
+  movie: Movie,
+  result: Result
+}
 
 @Component({
   selector: 'app-game',
@@ -14,40 +19,9 @@ export class GameComponent {
   showSolution: boolean = false;
 
   gameId: string | undefined;
+  guesses: Guess[] = [];
 
-  @Input()
-  @Output()
-  firstAnswer: Cast | undefined
-
-  @Input()
-  @Output()
-  thirdAnswer: Cast | undefined
-
-  @Input()
-  @Output()
-  fifthAnswer: Cast | undefined
-
-  @Input()
-  @Output()
-  seventhAnswer: Cast | undefined
-
-  @Input()
-  @Output()
-  ninthAnswer: Cast | undefined
-
-  @Input()
-  @Output()
-  secondAnswer: Movie | undefined
-
-  @Input()
-  @Output()
-  fourthAnswer: Movie | undefined
-  @Input()
-  @Output()
-  sixthAnswer: Movie | undefined
-  @Input()
-  @Output()
-  eighthAnswer: Movie | undefined
+  lastCastList: Cast[] | undefined;
 
   constructor(public gameService: GameService, private _activatedRoute: ActivatedRoute) {
   }
@@ -59,8 +33,38 @@ export class GameComponent {
   }
 
   loadGame() {
-    console.log(`Value is currently ${this.gameId}`)
     return this.fetchGame(this.gameId)
+  }
+
+  gameWon() {
+    return this.lastCastList !== undefined && !this.guesses.map(g => g.result.correct).includes(false)
+  }
+
+  submitGuess(movie2: Movie) {
+    if (this.start == undefined) {
+      return;
+    }
+
+    let movie1 = this.start;
+    if (this.guesses.length > 0) {
+      movie1 = this.guesses[this.guesses.length - 1].movie;
+    }
+
+    this.gameService.checkAnswer(movie1, movie2).subscribe((res) => {
+      console.log(res)
+      this.guesses.push({
+        movie: movie2,
+        result: res
+      })
+    })
+
+    if(this.end) {
+      this.gameService.checkAnswer(movie2, this.end).subscribe(res => {
+        if (res.correct) {
+          this.lastCastList = res.cast
+        }
+      })
+    }
   }
 
   fetchGame(gameId: string | undefined = undefined) {
@@ -68,6 +72,8 @@ export class GameComponent {
       this.start = res.start
       this.end = res.end;
       this.gameId = res.id
+      this.guesses = [];
+      this.lastCastList = undefined;
     })
   }
 

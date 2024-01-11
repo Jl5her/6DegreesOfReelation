@@ -16,6 +16,13 @@
   </button>
 </div>
 
+<div class="congrats" *ngIf="gameWon()">
+  <h2>
+    🎉 Congratulations 🎉
+  </h2>
+  <h5> {{ this.guesses.length }} move(s)</h5>
+</div>
+
 <div class="sequence vertical">
   <!--  Start-->
   <div class="poster" *ngIf="start != undefined">
@@ -27,19 +34,27 @@
     <!--    </mat-form-field>-->
   </div>
 
-  <app-person-input [(value)]="this.firstAnswer" [checkAgainst]="[start, this.secondAnswer]" />
+  <div class="guess" *ngFor="let guess of guesses; index as i">
+    <div class="cast-list">
+      <app-cast-icon [cast]="cast" *ngFor="let cast of guess.result.cast" />
+    </div>
+    <div class="metadata">
+      <p>{{ i + 1 }}.</p>
+      <p>{{ guess.movie.title }} ({{ getYear(guess.movie.release_date) }})</p>
+    </div>
+  </div>
 
-  <app-movie-input [(value)]="this.secondAnswer" [checkAgainst]="[this.firstAnswer, this.thirdAnswer]" />
-  <app-person-input [(value)]="this.thirdAnswer" [checkAgainst]="[this.secondAnswer, this.fourthAnswer]"/>
+  <div class="guess" *ngIf="!gameWon()">
+    <div class="metadata">
+      <p>{{ this.guesses.length + 1 }}.</p>
+      <app-movie-input (onSelected)="submitGuess($event)" />
+    </div>
+  </div>
 
-  <app-movie-input [(value)]="this.fourthAnswer" [checkAgainst]="[this.thirdAnswer, this.fifthAnswer]" />
-  <app-person-input [(value)]="this.fifthAnswer" [checkAgainst]="[this.fourthAnswer, this.sixthAnswer]" />
 
-  <app-movie-input [(value)]="this.sixthAnswer" [checkAgainst]="[this.fifthAnswer, this.seventhAnswer]"/>
-  <app-person-input [(value)]="this.seventhAnswer" [checkAgainst]="[this.sixthAnswer, this.eighthAnswer]" />
-
-  <app-movie-input [(value)]="this.eighthAnswer" [checkAgainst]="[this.seventhAnswer, this.ninthAnswer]"/>
-  <app-person-input [(value)]="this.ninthAnswer" [checkAgainst]="[this.eighthAnswer, this.end]" />
+  <div class="cast-list" *ngIf="gameWon()">
+    <app-cast-icon [cast]="cast" *ngFor="let cast of lastCastList" />
+  </div>
 
   <!--  End-->
   <div class="poster" *ngIf="end != undefined">
@@ -52,6 +67,6 @@
 </div>
 
 <label>Show Solution</label>
-<mat-slide-toggle  [checked]="showSolution" (change)="showSolution = !showSolution"/>
+<mat-slide-toggle [checked]="showSolution" (change)="showSolution = !showSolution" />
 
 <app-solution-viewer *ngIf="this.showSolution" [gameId]="this.gameId" />

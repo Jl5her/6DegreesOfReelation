@@ -18,6 +18,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@elysiajs/cors": "^0.8.0",
     "dotenv": "^16.3.1",
     "elysia": "^0.8.8",
     "mongoose": "^8.0.3",

@@ -1,5 +1,5 @@
 import { Game, SearchResults, Solution } from "./schema";
-import { checkCredit, make_solution, searchMovie, searchPerson } from './tmdb'
+import { checkCredit, checkAnswer, make_solution, searchMovie, searchPerson } from './tmdb'
 
 const CACHE_TIME = 1000 * 60 * 30
 
@@ -39,6 +39,7 @@ export class Service {
     await game.save();
     await solution.save();
 
+    console.log(game)
     return game
   }
 
@@ -86,5 +87,9 @@ export class Service {
 
   async checkCredit(movie_id: number, cast_id: number) {
     return { correct: await checkCredit(movie_id, cast_id) }
+  }
+
+  async checkAnswer(movie1: number, movie2: number) {
+    return await checkAnswer(movie1, movie2)
   }
 }

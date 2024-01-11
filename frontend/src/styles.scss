@@ -10,9 +10,26 @@ html, body {
   background: #ccc;
 }
 
+.congrats {
+  h2 {
+    font-size: 5rem !important;
+  }
+  h5{
+    font-size: 3rem;
+    margin: 4rem;
+  }
+
+  margin: 4rem !important;
+  text-align: center;
+}
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+h3 {
+  margin-bottom: 0 !important;
 }
 
 .sequence {
@@ -22,7 +39,7 @@ body {
   align-items: center;
 
 
-  &.vertical{
+  &.vertical {
     flex-direction: column;
   }
 
@@ -33,7 +50,7 @@ body {
     justify-content: center;
   }
 
-  img {
+  .cast-img, .movie-img {
     padding: 0.5rem;
     //border: 1px solid black;
     border-radius: 3px;

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import type { Observable } from "rxjs";
+import { type Observable, of } from "rxjs";
 import type { Cast, Movie } from "./game.service";
 
 @Injectable({
@@ -21,6 +21,7 @@ export class SearchService {
   }
 
   searchMovies(query: string): Observable<Movie[]> {
+    if (query == "" || query == null) return of([]);
     return this.httpClient.get<Movie[]>(this.movie_endpoint, {
       params: { q: query }
     });
