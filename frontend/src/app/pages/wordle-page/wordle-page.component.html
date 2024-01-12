@@ -1,0 +1,32 @@
+<p>wordle-page works!</p>
+Show Genre:
+<mat-slide-toggle [(ngModel)]="showGenre" />
+Show Year:
+<mat-slide-toggle [(ngModel)]="showYear" />
+
+<p *ngIf="showYear && randomMovie !== undefined">Released In {{ getYear(randomMovie.release_date) }}</p>
+<p *ngIf="showGenre && randomMovie !== undefined">
+  <span *ngFor="let genre of randomMovie.genre_ids">{{ getGenre(genre) }}, </span>
+</p>
+
+<div class="sequence vertical">
+  <div class="guess" *ngFor="let guess of guesses; index as i"
+       [class]="randomMovie?.id == guess.movie.id ? 'correct' : ''">
+    <div class="metadata">
+      <p>{{ i + 1 }}.</p>
+      <p>{{ guess.movie.title }} ({{ getYear(guess.movie.release_date) }})</p>
+    </div>
+
+    <div class="cast-list" *ngIf="randomMovie?.id !== guess.movie.id">
+      <app-cast-icon [cast]="cast" *ngFor="let cast of guess.cast" />
+    </div>
+  </div>
+
+  <div class="guess" *ngIf="!gameWon">
+    <div class="metadata">
+      <p>{{ guesses.length + 1 }}.</p>
+      <app-movie-input (onSelected)="submitGuess($event)" />
+    </div>
+  </div>
+</div>
+

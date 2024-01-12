@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
-import { type Movie } from "../shared/game.service";
-import { SearchService } from "../shared/search.service";
+import { type Movie } from "../../shared/game.service";
+import { SearchService } from "../../shared/search.service";
 
 @Component({
   selector: 'app-movie-input',

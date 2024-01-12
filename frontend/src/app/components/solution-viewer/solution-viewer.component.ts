@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GameService, type Solution } from "../shared/game.service";
+import { GameService, type Solution } from "../../shared/game.service";
 
 @Component({
   selector: 'app-solution-viewer',

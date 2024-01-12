@@ -15,9 +15,10 @@ app.use(cors())
 
 const service = new Service()
 
-app.get('/generate', () => {
-  return service.generateGame()
-})
+app.get('/generate', () => service.generateGame())
+app.get('/random_movie', () => service.randomMovie())
+app.get('/genres', () => service.getGenres())
+
 app.get('/game/:id', (context) => {
   return service.getGame(parseInt(context.params.id))
 })
@@ -51,14 +52,23 @@ app.get('/check_credit', (context) => {
   return null;
 })
 
+
 app.get('/check_answer', (context) => {
-  if(context.query.movie1 == undefined || context.query.movie2 == undefined) {
+  if (context.query.movie1 == undefined || context.query.movie2 == undefined) {
     return null;
   }
   const movie1 = parseInt(context.query.movie1)
   const movie2 = parseInt(context.query.movie2)
-  
+
   return service.checkAnswer(movie1, movie2)
+})
+
+app.get('/cast', (context) => {
+  if (!context.query.id) {
+    return null;
+  }
+
+  return service.getCast(parseInt(context.query.id))
 })
 
 

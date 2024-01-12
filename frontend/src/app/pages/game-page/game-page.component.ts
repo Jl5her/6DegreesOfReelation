@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { type Cast, GameService, Movie, type Result } from "../shared/game.service";
+import { type Cast, GameService, Movie, type Result } from "../../shared/game.service";
 
 type Guess = {
   movie: Movie,
@@ -8,11 +8,11 @@ type Guess = {
 }
 
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrl: './game.component.scss'
+  selector: 'app-game-page',
+  templateUrl: './game-page.component.html',
+  styleUrl: './game-page.component.scss'
 })
-export class GameComponent {
+export class GamePage {
   start: Movie | undefined;
   end: Movie | undefined;
 

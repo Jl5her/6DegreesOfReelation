@@ -34,12 +34,16 @@ const discover_movies = async (additional_filters: { [key: string]: string }): P
   return data.results
 }
 
-const movie_credits = async (movie_id: number): Promise<Cast[]> => {
+export const movie_credits = async (movie_id: number): Promise<Cast[]> => {
   const res = await fetch(`${url}/movie/${movie_id}/credits`, options)
   const data = await res.json() as { id: number, cast: Cast[] }
   return data.cast
 }
 
+export const getGenres = async (): Promise<{ genres: { id: number, name: string } }> => {
+  const res = await fetch(`${url}/genre/movie/list`, options)
+  return await res.json() as { genres: { id: number, name: string } }
+}
 
 export const checkCredit = async (movie_id: number, cast_id: number) => {
   const credits = await movie_credits(movie_id)
@@ -105,7 +109,7 @@ const get_top_cast = async (movie_id: number): Promise<Cast[]> => {
   return cast.filter(c => c.popularity > 40)
 }
 
-const filtered_top = async () => {
+const filtered_top = async (): Promise<Movie[]> => {
   return (await get_top()).filter(async (movie) => {
     return (await get_top_cast(movie.id)).length >= 3
   })
@@ -121,6 +125,14 @@ function shuffle<T>(array: T[]): T[] {
     [array[i], array[j]] = [array[j], array[i]]
   }
   return array;
+}
+
+export const randomMovie = async () => {
+  const randomMovie = randomChoice(await filtered_top())
+  return {
+    movie: randomMovie,
+    cast: await get_top_cast(randomMovie.id)
+  }
 }
 
 export const make_solution = async (): Promise<Solution | undefined> => {

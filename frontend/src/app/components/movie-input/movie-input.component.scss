@@ -1,0 +1,21 @@
+.mat-mdc-form-field {
+  margin-top: 21.75px;
+}
+
+//.is-invalid {
+//border: 3px solid red;
+//  animation: shake 300ms;
+//}
+
+
+@keyframes shake {
+  25% {
+    transform: translateX(4px);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translate(4px);
+  }
+}

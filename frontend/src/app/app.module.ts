@@ -13,19 +13,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from './app.component';
-import { CastIconComponent } from "./cast-icon/cast-icon.component";
-import { GameComponent } from "./game/game.component";
-import { GenerateComponent } from "./generate/generate.component";
+import { CastIconComponent } from "./components/cast-icon/cast-icon.component";
 
-import { MovieInputComponent } from './movie-input/movie-input.component';
-import { PersonInputComponent } from "./person-input/person-input.component";
-import { SolutionViewerComponent } from "./solution-viewer/solution-viewer.component";
+import { MovieInputComponent } from './components/movie-input/movie-input.component';
+import { PersonInputComponent } from "./components/person-input/person-input.component";
+import { SolutionViewerComponent } from "./components/solution-viewer/solution-viewer.component";
+import { GamePage } from "./pages/game-page/game-page.component";
+import { WordlePage } from "./pages/wordle-page/wordle-page.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    GenerateComponent,
-    GameComponent,
+    GamePage,
+    WordlePage,
     MovieInputComponent,
     PersonInputComponent,
     SolutionViewerComponent,

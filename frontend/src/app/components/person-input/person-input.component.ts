@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
-import { type Cast, GameService, type Movie } from "../shared/game.service";
-import { SearchService } from "../shared/search.service";
+import { type Cast, type Movie } from "../../shared/game.service";
+import { SearchService } from "../../shared/search.service";
 
 @Component({
   selector: 'app-person-input',
@@ -21,7 +21,7 @@ export class PersonInputComponent {
   @Input() value: Cast | undefined;
   @Output() valueChange: EventEmitter<Cast> = new EventEmitter();
 
-  constructor(public searchService: SearchService, private gameService: GameService) {
+  constructor(public searchService: SearchService) {
     this.searchSubject
       .pipe(
         debounceTime(500),

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import type { Cast } from "../shared/game.service";
+import type { Cast } from "../../shared/game.service";
 
 @Component({
   selector: 'app-cast-icon',

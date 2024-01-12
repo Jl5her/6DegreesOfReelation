@@ -73,6 +73,26 @@ export class GameService {
       .pipe(retry(1), catchError(this.processError))
   }
 
+  getRandomMovie(): Observable<{ movie: Movie, cast: Cast[] }> {
+    return this.httpClient
+      .get<{ movie: Movie, cast: Cast[] }>(this.endpoint + '/random_movie')
+      .pipe(retry(1), catchError(this.processError))
+  }
+
+  getCast(id: number): Observable<Cast[]> {
+    return this.httpClient
+      .get<Cast[]>(this.endpoint + '/cast', {
+        params: { id }
+      })
+      .pipe(retry(1), catchError(this.processError))
+  }
+
+  getGenres(): Observable<{ genres: { id: number, name: string }[] }> {
+    return this.httpClient
+      .get<{ genres: { id: number, name: string }[] }>(this.endpoint + '/genres')
+      .pipe(retry(1), catchError(this.processError))
+  }
+
   processError(err: any) {
     let message = ''
     if (err.error instanceof ErrorEvent) {
