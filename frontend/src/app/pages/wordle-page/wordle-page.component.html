@@ -1,10 +1,10 @@
 <p>wordle-page works!</p>
-Show Genre:
-<mat-slide-toggle [(ngModel)]="showGenre" />
-Show Year:
-<mat-slide-toggle [(ngModel)]="showYear" />
+<!--Show Genre:-->
+<!--<mat-slide-toggle [(ngModel)]="showGenre" />-->
+<!--Show Year:-->
+<!--<mat-slide-toggle [(ngModel)]="showYear" />-->
 
-<p *ngIf="showYear && randomMovie !== undefined">Released In {{ getYear(randomMovie.release_date) }}</p>
+<p *ngIf="showYear && randomMovie !== undefined">Released In {{ getYear(randomMovie!.release_date) }}</p>
 <p *ngIf="showGenre && randomMovie !== undefined">
   <span *ngFor="let genre of randomMovie.genre_ids">{{ getGenre(genre) }}, </span>
 </p>

@@ -5,23 +5,43 @@
 
 <!--<div class="poster">-->
 <!--  <img [alt]="selectedMovie == undefined ? 'unknown' : selectedMovie.title" class="movie-img" [src]="posterPath()">-->
-<mat-form-field class="is-invalid">
-  <input matInput
-         autofocus
-         [class]="getClass()"
-         placeholder="Type a Movie..."
-         [(ngModel)]="valueString"
-         (input)="onInputChange($event)"
-         [matAutocomplete]="auto" />
+<!--<mat-form-field class="is-invalid" [style.width.rem]="18">-->
+<!--  <input matInput-->
+<!--         autofocus-->
+<!--         [class]="getClass()"-->
+<!--         placeholder="Type a Movie..."-->
+<!--         [(ngModel)]="valueString"-->
+<!--         (input)="onInputChange($event)" />-->
 
-  <!--  <button mat-icon-button matSuffix>-->
-  <!--    <span class="material-icons">x</span>-->
-  <!--  </button>-->
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
-                    (optionSelected)="selectedChange($event.option.value)">
-    <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">
-      {{ displayFn(suggestion) }}
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>
+<!--  TODO: Needs Autocomplete-->
+
+<!--  <button mat-icon-button matSuffix>-->
+<!--    <span class="material-icons">x</span>-->
+<!--  </button>-->
+<!--  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"-->
+<!--                    (optionSelected)="selectedChange($event.option.value)">-->
+<!--    <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">-->
+<!--      {{ displayFn(suggestion) }}-->
+<!--    </mat-option>-->
+<!--  </mat-autocomplete>-->
+<!--</mat-form-field>-->
 <!--</div>-->
+
+<!--<input />-->
+<div class="ng-autocomplete">
+  <ng-autocomplete
+    [data]="suggestions"
+    searchKeyword="title"
+    placeholder="Type a Movie"
+    (selected)="selectedEvent($event)"
+    (inputChanged)="onChangeSearch($event)"
+    (inputFocused)="onFocused($event)"
+    [itemTemplate]="itemTemplate">
+  </ng-autocomplete>
+
+  <ng-template #itemTemplate let-item>
+    <a [innerHtml]="this.displayFn(item)"></a>
+    <!--    <a [innerHTML]="item.title"></a>-->
+  </ng-template>
+
+</div>

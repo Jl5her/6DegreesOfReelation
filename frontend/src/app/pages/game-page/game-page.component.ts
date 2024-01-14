@@ -1,5 +1,11 @@
+import { CommonModule } from "@angular/common";
 import { Component } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
+import { AnswerComponent } from "../../components/answer/answer.component";
+import { CastIconComponent } from "../../components/cast-icon/cast-icon.component";
+import { MovieInputComponent } from "../../components/movie-input/movie-input.component";
+import { SolutionViewerComponent } from "../../components/solution-viewer/solution-viewer.component";
+import { getPosterPath, getYear } from "../../shared/common";
 import { type Cast, GameService, Movie, type Result } from "../../shared/game.service";
 
 type Guess = {
@@ -10,6 +16,14 @@ type Guess = {
 @Component({
   selector: 'app-game-page',
   templateUrl: './game-page.component.html',
+  standalone: true,
+  imports: [
+    CastIconComponent,
+    CommonModule,
+    MovieInputComponent,
+    SolutionViewerComponent,
+    AnswerComponent
+  ],
   styleUrl: './game-page.component.scss'
 })
 export class GamePage {
@@ -81,11 +95,6 @@ export class GamePage {
     return this.fetchGame(Math.floor(Math.random() * 10000).toString())
   }
 
-  getYear(release_date: string): number {
-    return parseInt(release_date.split('-')[0])
-  }
-
-  getPosterPath(poster_path: string) {
-    return 'https://image.tmdb.org/t/p/w500' + poster_path
-  }
+  protected readonly getPosterPath = getPosterPath;
+  protected readonly getYear = getYear;
 }

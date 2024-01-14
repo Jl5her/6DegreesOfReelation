@@ -1,8 +1,14 @@
+import { CommonModule } from "@angular/common";
 import { Component, Input } from '@angular/core';
+import { getPosterPath } from "../../shared/common";
 import { GameService, type Solution } from "../../shared/game.service";
 
 @Component({
   selector: 'app-solution-viewer',
+  standalone: true,
+  imports: [
+    CommonModule
+  ],
   templateUrl: './solution-viewer.component.html',
   styleUrl: './solution-viewer.component.scss'
 })
@@ -38,7 +44,5 @@ export class SolutionViewerComponent {
     this.getSolution()
   }
 
-  getPosterPath(poster_path: string) {
-    return 'https://image.tmdb.org/t/p/w500' + poster_path
-  }
+  protected readonly getPosterPath = getPosterPath;
 }

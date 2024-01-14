@@ -18,13 +18,8 @@ const service = new Service()
 app.get('/generate', () => service.generateGame())
 app.get('/random_movie', () => service.randomMovie())
 app.get('/genres', () => service.getGenres())
-
-app.get('/game/:id', (context) => {
-  return service.getGame(parseInt(context.params.id))
-})
-app.get('/game/:id/solution', (context) => {
-  return service.getSolution(context.params.id)
-})
+app.get('/game/:id', (context) => service.getGame(parseInt(context.params.id)))
+app.get('/game/:id/solution', (context) => service.getSolution(context.params.id))
 
 app.get('/search_movie', (context) => {
   if (context.query.q) {

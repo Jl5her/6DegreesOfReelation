@@ -1,25 +1,27 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { AutocompleteLibModule } from "angular-ng-autocomplete";
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
-import { type Movie } from "../../shared/game.service";
+import { getYear } from "../../shared/common";
+import type { Movie } from "../../shared/game.service";
 import { SearchService } from "../../shared/search.service";
 
 @Component({
   selector: 'app-movie-input',
   providers: [BrowserAnimationsModule],
+  standalone: true,
+  imports: [
+    AutocompleteLibModule
+  ],
   templateUrl: './movie-input.component.html',
-  styleUrls: ['./movie-input.component.scss']
+  styleUrls: ['./movie-input.component.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class MovieInputComponent {
+
   private searchSubject = new Subject<string>();
 
   suggestions: Movie[] = [];
-  correct: boolean | undefined
-
-  valueString: string = "";
-
-  // @Input() value: Movie | undefined;
-
 
   @Output() onSelected: EventEmitter<Movie> = new EventEmitter();
 
@@ -29,30 +31,28 @@ export class MovieInputComponent {
         debounceTime(200),
         distinctUntilChanged(),
         switchMap(q => this.searchService.searchMovies(q))
-      ).subscribe((suggestions) => {
+      ).subscribe(suggestions => {
       this.suggestions = suggestions
     })
+    console.log('Search subject connected')
   }
 
-  getClass(): string {
-    if (this.correct == true) return "correct";
-    if (this.correct == false) return "incorrect";
-    return "";
+  async selectedEvent(item: Movie) {
+    this.onSelected.emit(item)
   }
 
-  async selectedChange(movie: Movie) {
-    this.valueString = "";
-    this.onSelected.emit(movie);
+  onChangeSearch(val: string) {
+    console.log(`Searching for ${val}`)
+    this.searchSubject.next(val)
   }
 
-  onInputChange(event: Event): void {
-    var value = (event.target as HTMLInputElement).value
-    this.searchSubject.next(value);
+  onFocused(e: any) {
+
   }
 
-  displayFn(movie?: Movie): string {
-    if (!movie) return "";
-    const year = movie.release_date.split('-')[0]
-    return `${movie.title} (${year})`
+  displayFn(item: Movie): string {
+    return `${item.title} (${getYear(item.release_date)})`;
   }
+
+  protected readonly getYear = getYear;
 }

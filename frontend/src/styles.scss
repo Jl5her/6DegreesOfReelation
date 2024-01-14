@@ -7,14 +7,15 @@
 
 html, body {
   height: 100%;
-  background: #ccc;
+  background: #FE5151;
 }
 
 .congrats {
   h2 {
     font-size: 5rem !important;
   }
-  h5{
+
+  h5 {
     font-size: 3rem;
     margin: 4rem;
   }
@@ -37,6 +38,8 @@ h3 {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  overflow-x: scroll;
 
 
   &.vertical {
@@ -48,6 +51,7 @@ h3 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 100px;
   }
 
   .cast-img, .movie-img {
@@ -79,4 +83,18 @@ h3 {
     align-items: center;
     text-align: center;
   }
+}
+
+.floating {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: absolute;
+  bottom: 1rem;
+}
+
+html body.mat-typography app-root app-game-page div.floating.bottom app-movie-input div.ng-autocomplete ng-autocomplete.ng-autocomplete div.autocomplete-container.active div#suggestions.suggestions-container.is-visible {
+  bottom: 45px !important;
 }

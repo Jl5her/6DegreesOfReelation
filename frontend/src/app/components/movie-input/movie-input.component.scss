@@ -1,6 +1,16 @@
-.mat-mdc-form-field {
-  margin-top: 21.75px;
+.ng-autocomplete {
+  background: #E0E0E0;
+  width: 350px;
+  margin-top: auto;
+  margin-bottom: 1rem;
+
+  ::ng-deep input {
+    font-size: 18px !important;
+  }
+
+
 }
+
 
 //.is-invalid {
 //border: 3px solid red;

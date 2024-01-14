@@ -1,11 +1,9 @@
-<h3>Solution</h3>
-
 <div class="sequence">
   <div *ngFor="let step of steps()" class="step">
     <div class="poster" *ngIf="step.cast !== undefined">
       <img [alt]="step.cast.name" class="cast-img" [src]="getPosterPath(step.cast.profile_path)">
       <span>{{ step.cast.name }}</span>
-      <span> as <i>{{step.cast.character}}</i></span>
+      <span> as <i>{{ step.cast.character }}</i></span>
     </div>
 
     <div class="poster">

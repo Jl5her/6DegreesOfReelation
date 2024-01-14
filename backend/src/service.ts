@@ -1,5 +1,6 @@
+import { checkAnswer, checkCredit, makeSolution, randomMovie } from "./game.ts";
 import { Game, SearchResults, Solution } from "./schema";
-import { checkAnswer, randomMovie,getGenres, checkCredit, make_solution, searchMovie, searchPerson, movie_credits } from './tmdb'
+import { getGenres, movieCredits, searchMovie, searchPerson } from './tmdb'
 
 const CACHE_TIME = 1000 * 60 * 30
 
@@ -14,16 +15,17 @@ export class Service {
       game = await this.generateGame(id)
     }
     return game;
-    
-    
   }
-  async getGenres() {return await getGenres()}
-  
+
+  async getGenres() {
+    return await getGenres()
+  }
+
   async generateGame(id: number | undefined = undefined) {
-    let steps = await make_solution()
+    let steps = await makeSolution()
 
     while (steps == undefined) {
-      steps = await make_solution();
+      steps = await makeSolution();
     }
 
     id ??= (await Game.findOne({}).sort("-id"))?.id + 1 ?? 0
@@ -96,11 +98,9 @@ export class Service {
     return await checkAnswer(movie1, movie2)
   }
 
-
   async getCast(id: number) {
-    return await movie_credits(id)
+    return await movieCredits(id)
   }
-
 
   async randomMovie() {
     return await randomMovie();

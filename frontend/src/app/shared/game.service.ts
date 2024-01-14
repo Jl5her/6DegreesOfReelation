@@ -44,7 +44,7 @@ export type Result = { correct: boolean, cast: Cast[] }
   providedIn: 'root'
 })
 export class GameService {
-  endpoint = 'http://localhost'
+  endpoint = 'http://192.168.1.103'
 
   constructor(private httpClient: HttpClient) {
   }

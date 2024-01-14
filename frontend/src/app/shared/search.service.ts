@@ -7,8 +7,8 @@ import type { Cast, Movie } from "./game.service";
   providedIn: 'root'
 })
 export class SearchService {
-  movie_endpoint = 'http://localhost/search_movie'
-  person_endpoint = 'http://localhost/search_person'
+  movie_endpoint = 'http://192.168.1.103/search_movie'
+  person_endpoint = 'http://192.168.1.103/search_person'
 
   constructor(private httpClient: HttpClient) {
 

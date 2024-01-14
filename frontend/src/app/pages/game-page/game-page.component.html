@@ -1,21 +1,3 @@
-<h1>Reel-Ation</h1>
-
-
-<div id="actions">
-
-  <button mat-raised-button color="primary" (click)="loadGame()">
-    Load
-  </button>
-
-  <mat-form-field>
-    <input matInput [(ngModel)]="this.gameId" />
-  </mat-form-field>
-
-  <button mat-raised-button color="accent" (click)="randomize()">
-    Randomize
-  </button>
-</div>
-
 <div class="congrats" *ngIf="gameWon()">
   <h2>
     🎉 Congratulations 🎉
@@ -25,48 +7,29 @@
 
 <div class="sequence vertical">
   <!--  Start-->
-  <div class="poster" *ngIf="start != undefined">
-    <img [alt]="start.title" class="movie-img" [src]="getPosterPath(start.poster_path)" [matTooltip]="start.title">
-    <h3>{{ start.title }} ({{ getYear(start.release_date) }})</h3>
-
-    <!--    <mat-form-field>-->
-    <!--      <input matInput disabled [value]="start.title" [alt]="start.title" [matTooltip]="start.title" />-->
-    <!--    </mat-form-field>-->
-  </div>
+  <app-answer [movie]="start" />
 
   <div class="guess" *ngFor="let guess of guesses; index as i">
-    <div class="cast-list">
-      <app-cast-icon [cast]="cast" *ngFor="let cast of guess.result.cast" />
-    </div>
-    <div class="metadata">
-      <p>{{ i + 1 }}.</p>
-      <p>{{ guess.movie.title }} ({{ getYear(guess.movie.release_date) }})</p>
-    </div>
-  </div>
-
-  <div class="guess" *ngIf="!gameWon()">
-    <div class="metadata">
-      <p>{{ this.guesses.length + 1 }}.</p>
-      <app-movie-input (onSelected)="submitGuess($event)" />
-    </div>
+    <!--    <div class="cast-list">-->
+    <!--      <app-cast-icon [cast]="cast" *ngFor="let cast of guess.result.cast" />-->
+    <!--    </div>-->
+    <app-answer [movie]="guess.movie" />
   </div>
 
 
-  <div class="cast-list" *ngIf="gameWon()">
-    <app-cast-icon [cast]="cast" *ngFor="let cast of lastCastList" />
-  </div>
+  <!--  <div class="cast-list" *ngIf="gameWon()">-->
+  <!--    <app-cast-icon [cast]="cast" *ngFor="let cast of lastCastList" />-->
+  <!--  </div>-->
 
   <!--  End-->
-  <div class="poster" *ngIf="end != undefined">
-    <img [alt]="end.title" class="movie-img" [src]="getPosterPath(end.poster_path)" [matTooltip]="end.title">
-    <h3>{{ end.title }} ({{ getYear(end.release_date) }})</h3>
-    <!--    <mat-form-field>-->
-    <!--      <input matInput disabled [value]="end.title" [alt]="end.title" [matTooltip]="end.title" />-->
-    <!--    </mat-form-field>-->
-  </div>
+  <app-answer [movie]="end" />
+
+  <!--<label>Show Solution</label>-->
+  <!--<mat-slide-toggle [checked]="showSolution" (change)="showSolution = !showSolution" />-->
 </div>
 
-<label>Show Solution</label>
-<mat-slide-toggle [checked]="showSolution" (change)="showSolution = !showSolution" />
+<!--<app-solution-viewer [gameId]="this.gameId" />-->
 
-<app-solution-viewer *ngIf="this.showSolution" [gameId]="this.gameId" />
+<div class="floating bottom">
+  <app-movie-input (onSelected)="submitGuess($event)" />
+</div>

@@ -1,8 +1,18 @@
+import { CommonModule } from "@angular/common";
 import { Component } from '@angular/core';
+import { CastIconComponent } from "../../components/cast-icon/cast-icon.component";
+import { MovieInputComponent } from "../../components/movie-input/movie-input.component";
+import { getYear } from "../../shared/common";
 import { type Cast, GameService, type Movie } from "../../shared/game.service";
 
 @Component({
   selector: 'app-wordle-page',
+  standalone: true,
+  imports: [
+    CastIconComponent,
+    CommonModule,
+    MovieInputComponent
+  ],
   templateUrl: './wordle-page.component.html',
   styleUrl: './wordle-page.component.scss'
 })
@@ -42,17 +52,14 @@ export class WordlePage {
       this.guesses.push({
         movie,
         cast: res.filter(c => {
-          return undefined !== this.randomMovieCast?.find(rc => rc.cast_id == c.cast_id)
+          return undefined !== this.randomMovieCast?.find(rc => rc.id == c.id)
         })
       })
     })
   }
-
-  getYear(release_date: string): number {
-    return parseInt(release_date.split('-')[0])
-  }
-
   getGenre(genre_id : number): string | undefined {
     return this.genres?.genres.find(g => g.id == genre_id)?.name;
   }
+
+  protected readonly getYear = getYear;
 }
