@@ -28,7 +28,11 @@ export class Service {
       steps = await makeSolution();
     }
 
-    id ??= (await Game.findOne({}).sort("-id"))?.id + 1 ?? 0
+    id = 0;
+    var doc = await Game.findOne({}).sort("-id")
+    if(doc) {
+      id = doc.id + 1
+    }
 
     const game = new Game({
       id,

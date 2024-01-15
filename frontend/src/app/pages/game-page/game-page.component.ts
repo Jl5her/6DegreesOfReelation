@@ -63,7 +63,7 @@ export class GamePage {
   }
 
   latestEndGuess() {
-    return this.end_answers.length > 0 ? this.start_answers[this.end_answers.length - 1].movie : this.end;
+    return this.end_answers.length > 0 ? this.end_answers[this.end_answers.length - 1].movie : this.end;
   }
 
   gameWon() {

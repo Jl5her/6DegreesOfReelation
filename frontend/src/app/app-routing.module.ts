@@ -6,7 +6,7 @@ import { WordlePage } from "./pages/wordle-page/wordle-page.component";
 
 const routes: Routes = [
   { path: '', component: GamePage },
-  { path: 'game-page/:id', component: GamePage },
+  { path: 'game/:id', component: GamePage },
   { path: 'wordle', component: WordlePage }
 ]
 
