@@ -1,19 +1,32 @@
 <div class="congrats" *ngIf="gameWon()">
-  <h2>
+  <h1>
     🎉 Congratulations 🎉
-  </h2>
-  <h5> {{ this.guesses.length }} move(s)</h5>
+  </h1>
+  <h2> {{ this.start_answers.length + this.end_answers.length }} move(s)</h2>
 </div>
 
 <div class="sequence vertical">
   <!--  Start-->
   <app-answer [movie]="start" />
 
-  <div class="guess" *ngFor="let guess of guesses; index as i">
-    <!--    <div class="cast-list">-->
-    <!--      <app-cast-icon [cast]="cast" *ngFor="let cast of guess.result.cast" />-->
-    <!--    </div>-->
-    <app-answer [movie]="guess.movie" />
+  <div class="guess" *ngFor="let answer of start_answers; index as i">
+    <div class="cast-list">
+      <app-cast-icon [cast]="cast" *ngFor="let cast of answer.result.cast" />
+    </div>
+    <app-answer [movie]="answer.movie" />
+  </div>
+
+  <div [classList]="classList()" *ngIf="!gameWon()">
+    <div class="circle" *ngFor="let _ of Array.from({length: remainingGuesses()})">
+      &nbsp;
+    </div>
+  </div>
+
+  <div class="guess" *ngFor="let answer of end_answers; index as i">
+    <app-answer [movie]="answer.movie" *ngIf="!gameWon()" />
+    <div class="cast-list">
+      <app-cast-icon [cast]="cast" *ngFor="let cast of answer.result.cast" />
+    </div>
   </div>
 
 
@@ -30,6 +43,6 @@
 
 <!--<app-solution-viewer [gameId]="this.gameId" />-->
 
-<div class="floating bottom">
+<div class="center">
   <app-movie-input (onSelected)="submitGuess($event)" />
 </div>

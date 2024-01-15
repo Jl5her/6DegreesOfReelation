@@ -1,9 +1,3 @@
-h1 {
-  font-family: FilmLetters, sans-serif;
-  font-size: 5rem;
-  text-align: center;
-}
-
 #actions {
   display: flex;
   flex-direction: row;
@@ -38,4 +32,55 @@ h1 {
       margin: 0.5rem;
     }
   }
+}
+
+.congrats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sequence {
+  width: 100vw;
+  height: 70vh;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.circles {
+  display: flex;
+  flex-direction: row;
+
+  .circle {
+    margin: 3px;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 100%;
+  }
+
+  &.loading .circle {
+    animation-name: shake;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+
+    &:nth-child(odd) {
+      animation-delay: 1s;
+    }
+  }
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

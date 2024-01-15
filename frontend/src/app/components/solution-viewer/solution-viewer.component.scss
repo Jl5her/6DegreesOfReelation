@@ -1,0 +1,56 @@
+.solution-container {
+  width: 100vw;
+  overflow-x: scroll;
+
+  .solution {
+    display: grid;
+    width: 1500px;
+    grid-template-columns: repeat(11, 130px);
+    align-items: center;
+    //
+    //display: flex;
+    //flex-direction: row;
+    //justify-content: center;
+    //align-items: center;
+
+    .step {
+      margin: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .step:has(.movie-img) {
+      width: 130px;
+    }
+
+    .step:has(.cast-img) {
+      width: 90px;
+    }
+
+    .cast-img, .movie-img {
+      padding: 0.5rem;
+      border-radius: 3px;
+      box-shadow: 1px 1px 8px #AAA;
+      background: white;
+    }
+
+    .cast-img {
+      width: 4rem;
+      height: auto;
+    }
+
+    .movie-img {
+      width: 6rem;
+      height: auto;
+    }
+
+    .poster {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+}

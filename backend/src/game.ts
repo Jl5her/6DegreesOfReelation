@@ -5,6 +5,8 @@ import { randomChoice, shuffle } from "./utils.ts";
 export const checkAnswer = async (movie1: number, movie2: number) => {
   const credits1 = await movieCredits(movie1)
   const credits2 = await movieCredits(movie2)
+  
+  console.log("Got credits for two movies...")
 
   const common = credits1.filter(c1 => credits2.find(c2 => c2.name == c1.name) != undefined)
   return { correct: common.length > 0, cast: common }

@@ -1,6 +1,7 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output, ViewChild } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { AutocompleteLibModule } from "angular-ng-autocomplete";
+import { AutocompleteComponent, AutocompleteLibModule } from "angular-ng-autocomplete";
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
 import { getYear } from "../../shared/common";
 import type { Movie } from "../../shared/game.service";
@@ -11,7 +12,8 @@ import { SearchService } from "../../shared/search.service";
   providers: [BrowserAnimationsModule],
   standalone: true,
   imports: [
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    CommonModule
   ],
   templateUrl: './movie-input.component.html',
   styleUrls: ['./movie-input.component.scss'],
@@ -21,7 +23,12 @@ export class MovieInputComponent {
 
   private searchSubject = new Subject<string>();
 
+  @ViewChild('auto') auto: AutocompleteComponent | undefined;
+
   suggestions: Movie[] = [];
+  class: string = ""
+  showSubmit: boolean = false;
+  selected: Movie | undefined;
 
   @Output() onSelected: EventEmitter<Movie> = new EventEmitter();
 
@@ -38,17 +45,23 @@ export class MovieInputComponent {
   }
 
   async selectedEvent(item: Movie) {
-    this.onSelected.emit(item)
+    this.selected = item;
+    // this.onSelected.emit(item)
+    this.class = "is-invalid";
+    this.showSubmit = true;
+  }
+
+  submit() {
+    this.onSelected.emit(this.selected)
+    this.auto?.clear()
+    this.auto?.close()
   }
 
   onChangeSearch(val: string) {
-    console.log(`Searching for ${val}`)
     this.searchSubject.next(val)
   }
 
-  onFocused(e: any) {
-
-  }
+  onFocused(_e: any) {  }
 
   displayFn(item: Movie): string {
     return `${item.title} (${getYear(item.release_date)})`;

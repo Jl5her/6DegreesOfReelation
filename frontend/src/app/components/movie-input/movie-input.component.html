@@ -28,20 +28,26 @@
 <!--</div>-->
 
 <!--<input />-->
-<div class="ng-autocomplete">
-  <ng-autocomplete
-    [data]="suggestions"
-    searchKeyword="title"
-    placeholder="Type a Movie"
-    (selected)="selectedEvent($event)"
-    (inputChanged)="onChangeSearch($event)"
-    (inputFocused)="onFocused($event)"
-    [itemTemplate]="itemTemplate">
-  </ng-autocomplete>
+<div class="movie-input">
+  <div class="ng-autocomplete">
+    <ng-autocomplete
+      #auto
+      [data]="suggestions"
+      searchKeyword="title"
+      placeholder="Type a Movie"
+      [class]="class"
+      (selected)="selectedEvent($event)"
+      (inputChanged)="onChangeSearch($event)"
+      (inputFocused)="onFocused($event)"
+      [itemTemplate]="itemTemplate">
+    </ng-autocomplete>
 
-  <ng-template #itemTemplate let-item>
-    <a [innerHtml]="this.displayFn(item)"></a>
-    <!--    <a [innerHTML]="item.title"></a>-->
-  </ng-template>
+    <ng-template #itemTemplate let-item>
+      <a [innerHtml]="this.displayFn(item)"></a>
+      <!--    <a [innerHTML]="item.title"></a>-->
+    </ng-template>
 
+  </div>
+
+  <button (click)="submit()">Submit</button>
 </div>

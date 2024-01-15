@@ -6,7 +6,7 @@ import { CastIconComponent } from "../../components/cast-icon/cast-icon.componen
 import { MovieInputComponent } from "../../components/movie-input/movie-input.component";
 import { SolutionViewerComponent } from "../../components/solution-viewer/solution-viewer.component";
 import { getPosterPath, getYear } from "../../shared/common";
-import { type Cast, GameService, Movie, type Result } from "../../shared/game.service";
+import { GameService, Movie, type Result } from "../../shared/game.service";
 
 type Guess = {
   movie: Movie,
@@ -27,15 +27,13 @@ type Guess = {
   styleUrl: './game-page.component.scss'
 })
 export class GamePage {
-  start: Movie | undefined;
-  end: Movie | undefined;
+  start: Movie | undefined
+  start_answers: Guess[] = []
 
-  showSolution: boolean = false;
+  end: Movie | undefined
+  end_answers: Guess[] = []
 
-  gameId: string | undefined;
-  guesses: Guess[] = [];
-
-  lastCastList: Cast[] | undefined;
+  gameId: string | undefined
 
   constructor(public gameService: GameService, private _activatedRoute: ActivatedRoute) {
   }
@@ -46,36 +44,57 @@ export class GamePage {
     })
   }
 
+  classList() {
+    if (this.end && this.start) {
+      return 'circles'
+    } else {
+      return 'circles loading'
+    }
+  }
+
+  remainingGuesses = () => 6 - (this.start_answers.length + this.end_answers.length);
+
   loadGame() {
     return this.fetchGame(this.gameId)
   }
 
-  gameWon() {
-    return this.lastCastList !== undefined && !this.guesses.map(g => g.result.correct).includes(false)
+  latestStartGuess() {
+    return this.start_answers.length > 0 ? this.start_answers[this.start_answers.length - 1].movie : this.start;
   }
 
-  submitGuess(movie2: Movie) {
+  latestEndGuess() {
+    return this.end_answers.length > 0 ? this.start_answers[this.end_answers.length - 1].movie : this.end;
+  }
+
+  gameWon() {
+    return this.latestStartGuess() != null && this.latestStartGuess()?.id === this.latestEndGuess()?.id
+  }
+
+  submitGuess(guess: Movie) {
     if (this.start == undefined) {
       return;
     }
 
-    let movie1 = this.start;
-    if (this.guesses.length > 0) {
-      movie1 = this.guesses[this.guesses.length - 1].movie;
+    let startGuess = this.latestStartGuess()
+
+    if (startGuess) {
+      this.gameService.checkAnswer(guess, startGuess).subscribe(result => {
+        if (result.correct) {
+          this.start_answers.push({ movie: guess, result })
+        } else {
+          console.log(`Answer was incorrect!`)
+        }
+      })
     }
 
-    this.gameService.checkAnswer(movie1, movie2).subscribe((res) => {
-      console.log(res)
-      this.guesses.push({
-        movie: movie2,
-        result: res
-      })
-    })
+    let endGuess = this.latestEndGuess();
 
-    if(this.end) {
-      this.gameService.checkAnswer(movie2, this.end).subscribe(res => {
-        if (res.correct) {
-          this.lastCastList = res.cast
+    if (endGuess) {
+      this.gameService.checkAnswer(guess, endGuess).subscribe(result => {
+        if (result.correct) {
+          this.end_answers.push({ movie: guess, result })
+        } else {
+          console.log(`Answer was incorrect!`)
         }
       })
     }
@@ -84,10 +103,10 @@ export class GamePage {
   fetchGame(gameId: string | undefined = undefined) {
     return this.gameService.getGame(gameId).subscribe((res) => {
       this.start = res.start
-      this.end = res.end;
+      this.end = res.end
       this.gameId = res.id
-      this.guesses = [];
-      this.lastCastList = undefined;
+      this.start_answers = []
+      this.end_answers = []
     })
   }
 
@@ -97,4 +116,5 @@ export class GamePage {
 
   protected readonly getPosterPath = getPosterPath;
   protected readonly getYear = getYear;
+  protected readonly Array = Array;
 }

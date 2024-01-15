@@ -1,21 +1,39 @@
+.movie-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .ng-autocomplete {
   background: #E0E0E0;
   width: 350px;
-  margin-top: auto;
-  margin-bottom: 1rem;
-
-  ::ng-deep input {
-    font-size: 18px !important;
-  }
-
-
 }
 
+::ng-deep .ng-autocomplete input {
+  font-size: 18px !important;
+  padding: 2rem;
+  border-radius: 4px
+}
 
-//.is-invalid {
-//border: 3px solid red;
-//  animation: shake 300ms;
-//}
+.movie-input {
+  .ng-autocomplete {
+    width: 300px;
+  }
+}
+
+.is-invalid input {
+  border: 3px solid red;
+  animation: shake 300ms;
+}
+
+button {
+  background: blue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  box-shadow: none;
+  height: 50px;
+}
 
 
 @keyframes shake {

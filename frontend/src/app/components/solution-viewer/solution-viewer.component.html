@@ -1,14 +1,15 @@
-<div class="sequence">
-  <div *ngFor="let step of steps()" class="step">
-    <div class="poster" *ngIf="step.cast !== undefined">
-      <img [alt]="step.cast.name" class="cast-img" [src]="getPosterPath(step.cast.profile_path)">
-      <span>{{ step.cast.name }}</span>
-      <span> as <i>{{ step.cast.character }}</i></span>
-    </div>
+<div class="solution-container">
+  <div class="solution">
+    <ng-container *ngFor="let step of steps()">
+      <div class="step" *ngIf="step.cast !== undefined">
+        <img [alt]="step.cast.name" class="cast-img" [src]="getPosterPath(step.cast.profile_path)">
+        <span>{{ step.cast.name }}</span>
+      </div>
 
-    <div class="poster">
-      <img [alt]="step.movie.title" class="movie-img" [src]="getPosterPath(step.movie.poster_path)">
-      <h3>{{ step.movie.title }} ({{ step.movie.release_date.split('-')[0] }})</h3>
-    </div>
+      <div class="step">
+        <img [alt]="step.movie.title" class="movie-img" [src]="getPosterPath(step.movie.poster_path)">
+        <p>{{ step.movie.title }} ({{ step.movie.release_date.split('-')[0] }})</p>
+      </div>
+    </ng-container>
   </div>
 </div>
