@@ -40,74 +40,71 @@ button {
 
 
 @keyframes shake {
-  25% {
+  0% {
     transform: translateX(4px);
   }
   50% {
-    transform: translateX(-4px);
+    transform: translateX(4px);
   }
-  75% {
-    transform: translate(4px);
-  }
+  100%{
+    transform: translateX(4px);}
 }
 
 
 /* Vendor prefixes */
 @-webkit-keyframes shake {
-  25% {
+  0% {
     -webkit-transform: translateX(4px);
     transform: translateX(4px);
   }
   50% {
-    -webkit-transform: translateX(-4px);
-    transform: translateX(-4px);
-  }
-  75% {
     -webkit-transform: translateX(4px);
     transform: translateX(4px);
   }
+  100%{
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);}
 }
 
 @-moz-keyframes shake {
-  25% {
+  0% {
     -moz-transform: translateX(4px);
     transform: translateX(4px);
   }
   50% {
-    -moz-transform: translateX(-4px);
-    transform: translateX(-4px);
-  }
-  75% {
     -moz-transform: translateX(4px);
     transform: translateX(4px);
   }
+  100%{
+    -moz-transform: translateX(4px);
+    transform: translateX(4px);}
 }
 
 @-o-keyframes shake {
-  25% {
+  0% {
     -o-transform: translateX(4px);
     transform: translateX(4px);
   }
   50% {
-    -o-transform: translateX(-4px);
-    transform: translateX(-4px);
+    -o-transform: translateX(4px);
+    transform: translateX(4px);
   }
-  75% {
+  100%{
     -o-transform: translateX(4px);
     transform: translateX(4px);
   }
 }
 
 @-ms-keyframes shake {
-  25% {
+  0% {
     -ms-transform: translateX(4px);
     transform: translateX(4px);
   }
   50% {
-    -ms-transform: translateX(-4px);
-    transform: translateX(-4px);
+    -ms-transform: translateX(4px);
+    transform: translateX(4px);
   }
-  75% {
+  100%{
     -ms-transform: translateX(4px);
     transform: translateX(4px);
   }
