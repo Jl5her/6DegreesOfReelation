@@ -1,9 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Component } from '@angular/core';
+import type { Cast, Movie } from "reelation";
 import { CastIconComponent } from "../../components/cast-icon/cast-icon.component";
 import { MovieInputComponent } from "../../components/movie-input/movie-input.component";
 import { getYear } from "../../shared/common";
-import { type Cast, GameService, type Movie } from "../../shared/game.service";
+import { GameService } from "../../shared/game.service";
 
 @Component({
   selector: 'app-wordle-page',
@@ -22,7 +23,7 @@ export class WordlePage {
   randomMovieCast: Cast[] | undefined
   guesses: { movie: Movie, cast: Cast[] }[] = []
   gameWon: boolean = false
-  genres: { genres: { id: number, name: string } []}| undefined
+  genres: { genres: { id: number, name: string } [] } | undefined
 
   showGenre: boolean = false
   showYear: boolean = false
@@ -57,7 +58,8 @@ export class WordlePage {
       })
     })
   }
-  getGenre(genre_id : number): string | undefined {
+
+  getGenre(genre_id: number): string | undefined {
     return this.genres?.genres.find(g => g.id == genre_id)?.name;
   }
 

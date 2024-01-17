@@ -15,10 +15,32 @@ app.use(cors())
 
 const service = new Service()
 
-app.get('/generate', () => service.generateGame())
-app.get('/random_movie', () => service.randomMovie())
+app.get('/generate', (context) => {
+  if (context.query.include_animation !== undefined) {
+    const include_animation = context.query.include_animation == 'true'
+    console.log(`Include Animations: ${include_animation}`)
+    return service.generateGame(include_animation)
+  }
+  return service.generateGame()
+})
+app.get('/random_movie', (context) => {
+  if (context.query.include_animation !== undefined) {
+    const include_animation = context.query.include_animation == 'true'
+    return service.randomMovie(include_animation)
+  }
+  return service.randomMovie()
+})
 app.get('/genres', () => service.getGenres())
-app.get('/game/:id', (context) => service.getGame(parseInt(context.params.id)))
+app.get('/game/:id', (context) => {
+  const gameId = parseInt(context.params.id)
+
+  if (context.query.include_animation !== undefined) {
+    const include_animation = context.query.include_animation == 'true'
+    return service.getGame(include_animation, gameId)
+  }
+
+  service.getGame(true, gameId)
+})
 app.get('/game/:id/solution', (context) => service.getSolution(context.params.id))
 
 app.get('/search_movie', (context) => {

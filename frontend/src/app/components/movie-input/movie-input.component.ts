@@ -2,9 +2,9 @@ import { CommonModule } from "@angular/common";
 import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, Output, ViewChild } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AutocompleteComponent, AutocompleteLibModule } from "angular-ng-autocomplete";
+import type { Movie } from "reelation";
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from "rxjs";
 import { getYear } from "../../shared/common";
-import type { Movie } from "../../shared/game.service";
 import { SearchService } from "../../shared/search.service";
 
 @Component({

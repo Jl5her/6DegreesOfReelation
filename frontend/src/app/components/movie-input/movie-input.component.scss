@@ -23,7 +23,10 @@
 
 .is-invalid input {
   border: 3px solid red;
-  animation: shake 300ms;
+  animation: shake 300ms infinite;
+  -webkit-animation: shake 300ms infinite;
+  -moz-animation: shake 300ms infinite;
+  -o-animation: shake 300ms infinite;
 }
 
 button {
@@ -45,5 +48,67 @@ button {
   }
   75% {
     transform: translate(4px);
+  }
+}
+
+
+/* Vendor prefixes */
+@-webkit-keyframes shake {
+  25% {
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+  50% {
+    -webkit-transform: translateX(-4px);
+    transform: translateX(-4px);
+  }
+  75% {
+    -webkit-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+}
+
+@-moz-keyframes shake {
+  25% {
+    -moz-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+  50% {
+    -moz-transform: translateX(-4px);
+    transform: translateX(-4px);
+  }
+  75% {
+    -moz-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+}
+
+@-o-keyframes shake {
+  25% {
+    -o-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+  50% {
+    -o-transform: translateX(-4px);
+    transform: translateX(-4px);
+  }
+  75% {
+    -o-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+}
+
+@-ms-keyframes shake {
+  25% {
+    -ms-transform: translateX(4px);
+    transform: translateX(4px);
+  }
+  50% {
+    -ms-transform: translateX(-4px);
+    transform: translateX(-4px);
+  }
+  75% {
+    -ms-transform: translateX(4px);
+    transform: translateX(4px);
   }
 }

@@ -1,50 +1,14 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import type { Cast, Game, Movie, Result, Solution } from "reelation";
 import { catchError, Observable, retry, throwError } from "rxjs";
-
-export type Movie = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: [number];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number
-}
-
-export type Cast = {
-  adult: boolean;
-  gender: number;
-  id: number;
-  known_for_department: string;
-  name: string;
-  original_name: string;
-  popularity: number;
-  profile_path: string;
-  cast_id: number;
-  character: string;
-  credit_id: string;
-  order: number
-}
-
-export type Game = { start: Movie, end: Movie, id: string }
-
-export type Solution = { id: string, steps: { cast: Cast | undefined, movie: Movie }[] }
-
-export type Result = { correct: boolean, cast: Cast[] }
+import { config } from "../environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  endpoint = 'http://192.168.1.103'
+  endpoint = config.API_URL
 
   constructor(private httpClient: HttpClient) {
   }
@@ -57,7 +21,7 @@ export class GameService {
 
   getGame(gameId: string | undefined = undefined): Observable<Game> {
     return this.httpClient
-      .get<Game>(this.endpoint + (gameId ? `/game/${gameId}` : '/generate'))
+      .get<Game>(this.endpoint + (gameId ? `/game/${gameId}?include_animation=false` : '/generate?include_animation=false'))
       .pipe(retry(1), catchError(this.processError))
   }
 

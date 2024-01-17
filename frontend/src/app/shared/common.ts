@@ -1,5 +1,3 @@
-import type { Movie } from "./game.service";
-
 export function getYear(release_date: string): number {
   return parseInt(release_date.split('-')[0])
 }

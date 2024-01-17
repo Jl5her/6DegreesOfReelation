@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from '@angular/core';
+import type { Cast } from "reelation";
 import { TooltipModule } from "../../common/ui/tooltip/tooltip.module";
-import type { Cast } from "../../shared/game.service";
 
 @Component({
   selector: 'app-cast-icon',

@@ -22,7 +22,12 @@ const filters = {
   'vote_average.gte': '7'
 }
 
-export const discoverMovies = async (additional_filters: { [key: string]: string }): Promise<Movie[]> => {
+export const discoverMovies = async (include_animation: boolean = true, additional_filters: { [key: string]: string }): Promise<Movie[]> => {
+  
+  if (!include_animation) {
+    additional_filters = { ...additional_filters, without_genres: '16' }
+  }
+
   const q = new URLSearchParams({
     ...additional_filters,
     ...filters
@@ -34,7 +39,7 @@ export const discoverMovies = async (additional_filters: { [key: string]: string
 
 export const movieCredits = async (movie_id: number): Promise<Cast[]> => {
   const res = await fetch(`${url}/movie/${movie_id}/credits`, options)
-  return (await res.json() as { id: number, cast: Cast[] }).cast
+  return (await res.json() as { id: number, cast: Cast[] })?.cast.filter(c => c.known_for_department == 'Acting')
 }
 
 export const getGenres = async (): Promise<{ genres: { id: number, name: string } }> => {

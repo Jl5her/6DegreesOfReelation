@@ -9,10 +9,10 @@ export class Service {
 
   }
 
-  async getGame(id: number) {
+  async getGame(include_animation: boolean = true, id: number) {
     let game = await Game.findOne({ id })
     if (!game) {
-      game = await this.generateGame(id)
+      game = await this.generateGame(include_animation, id)
     }
     return game;
   }
@@ -21,11 +21,11 @@ export class Service {
     return await getGenres()
   }
 
-  async generateGame(id: number | undefined = undefined) {
-    let steps = await makeSolution()
+  async generateGame(include_animation: boolean = true, id: number | undefined = undefined) {
+    let steps = await makeSolution(include_animation)
 
     while (steps == undefined) {
-      steps = await makeSolution();
+      steps = await makeSolution(include_animation);
     }
 
     id = 0;
@@ -106,7 +106,7 @@ export class Service {
     return await movieCredits(id)
   }
 
-  async randomMovie() {
-    return await randomMovie();
+  async randomMovie(include_animation: boolean = true) {
+    return await randomMovie(include_animation);
   }
 }

@@ -1,7 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from '@angular/core';
+import type { Solution } from "reelation";
 import { getPosterPath } from "../../shared/common";
-import { GameService, type Solution } from "../../shared/game.service";
+import { GameService } from "../../shared/game.service";
 
 @Component({
   selector: 'app-solution-viewer',

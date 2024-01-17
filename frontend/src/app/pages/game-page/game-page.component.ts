@@ -1,12 +1,13 @@
 import { CommonModule } from "@angular/common";
 import { Component } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
+import type { Movie, Result } from "reelation";
 import { AnswerComponent } from "../../components/answer/answer.component";
 import { CastIconComponent } from "../../components/cast-icon/cast-icon.component";
 import { MovieInputComponent } from "../../components/movie-input/movie-input.component";
 import { SolutionViewerComponent } from "../../components/solution-viewer/solution-viewer.component";
 import { getPosterPath, getYear } from "../../shared/common";
-import { GameService, Movie, type Result } from "../../shared/game.service";
+import { GameService } from "../../shared/game.service";
 
 type Guess = {
   movie: Movie,

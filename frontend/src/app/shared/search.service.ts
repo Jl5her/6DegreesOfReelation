@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import type { Cast, Movie } from "reelation";
 import { type Observable, of } from "rxjs";
-import type { Cast, Movie } from "./game.service";
+import { config } from "../environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
-  movie_endpoint = 'http://192.168.1.103/search_movie'
-  person_endpoint = 'http://192.168.1.103/search_person'
+  movie_endpoint = `${config.API_URL}/search_movie`
+  person_endpoint = `${config.API_URL}/search_person`
 
   constructor(private httpClient: HttpClient) {
 

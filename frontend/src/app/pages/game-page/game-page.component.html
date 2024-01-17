@@ -17,13 +17,11 @@
   </div>
 
   <div [classList]="classList()" *ngIf="!gameWon()">
-    <div class="circle" *ngFor="let _ of Array.from({length: remainingGuesses()})">
-      &nbsp;
-    </div>
+    <div class="circle" *ngFor="let _ of Array.from({length: remainingGuesses()})">&nbsp;</div>
   </div>
 
-  <div class="guess" *ngFor="let answer of end_answers; index as i">
-    <app-answer [movie]="answer.movie" *ngIf="!gameWon()" />
+  <div class="guess" *ngFor="let answer of end_answers.slice().reverse(); index as i">
+    <app-answer [movie]="answer.movie" *ngIf="!gameWon() || i !== 0"/>
     <div class="cast-list">
       <app-cast-icon [cast]="cast" *ngFor="let cast of answer.result.cast" />
     </div>

@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, Input } from '@angular/core';
+import type { Movie } from "reelation";
 import { getPosterPath, getYear } from "../../shared/common";
-import type { Movie } from "../../shared/game.service";
 
 @Component({
   selector: 'app-answer',
