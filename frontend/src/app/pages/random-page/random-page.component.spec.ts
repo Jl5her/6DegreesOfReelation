@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WordlePage } from './wordle-page.component';
+import { RandomPage } from './random-page.component';
 
-describe('WorldePageComponent', () => {
-  let component: WordlePage;
-  let fixture: ComponentFixture<WordlePage>;
+describe('RandomPageComponent', () => {
+  let component: RandomPage;
+  let fixture: ComponentFixture<RandomPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WordlePage]
+      imports: [RandomPage]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WordlePage);
+    fixture = TestBed.createComponent(RandomPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

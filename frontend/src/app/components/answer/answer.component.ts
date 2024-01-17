@@ -15,6 +15,7 @@ import { getPosterPath, getYear } from "../../shared/common";
 export class AnswerComponent {
 
   @Input() movie: Movie | undefined;
+  @Input() class : string | undefined
   protected readonly getPosterPath = getPosterPath;
   protected readonly getYear = getYear;
 }

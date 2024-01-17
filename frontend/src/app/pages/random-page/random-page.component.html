@@ -1,0 +1,30 @@
+<!--<p *ngIf="showGenre && randomMovie !== undefined">-->
+<!--  <span *ngFor="let genre of randomMovie.genre_ids">{{ getGenre(genre) }}, </span>-->
+<!--</p>-->
+
+<div class="sequence vertical">
+  <div class="metadata">
+    <p *ngIf="randomMovie !== undefined">I am thinking of a movie<br>released
+      in: {{ getYear(randomMovie!.release_date) }}</p>
+    <app-cast-icon *ngIf="randomMovieCast !== undefined" [cast]="randomMovieCast!" />
+  </div>
+
+  <div class="guess" *ngFor="let guess of guesses; index as i"
+       [class]="randomMovie?.id == guess.movie.id ? 'correct' : ''">
+    <app-answer [movie]="guess.movie" [class]="guess.movie.id == randomMovie?.id ? 'correct': ''" />
+
+    <ng-container class="cast-list" *ngIf="randomMovie?.id !== guess.movie.id">
+      <div class="cast-list">
+        <ng-container *ngFor="let cast of guess.cast">
+          <app-cast-icon [cast]="cast" *ngIf="cast !== randomMovieCast" />
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
+
+  <div class="center" *ngIf="!gameWon">
+    <app-movie-input (onSelected)="submitGuess($event)" />
+  </div>
+</div>
+

@@ -1,26 +1,29 @@
 import { CommonModule } from "@angular/common";
 import { Component } from '@angular/core';
 import type { Cast, Movie } from "reelation";
+import { AnswerComponent } from "../../components/answer/answer.component";
 import { CastIconComponent } from "../../components/cast-icon/cast-icon.component";
 import { MovieInputComponent } from "../../components/movie-input/movie-input.component";
 import { getYear } from "../../shared/common";
 import { GameService } from "../../shared/game.service";
 
 @Component({
-  selector: 'app-wordle-page',
+  selector: 'app-random-page',
   standalone: true,
   imports: [
     CastIconComponent,
     CommonModule,
-    MovieInputComponent
+    MovieInputComponent,
+    AnswerComponent
   ],
-  templateUrl: './wordle-page.component.html',
-  styleUrl: './wordle-page.component.scss'
+  templateUrl: './random-page.component.html',
+  styleUrl: './random-page.component.scss'
 })
-export class WordlePage {
+export class RandomPage {
 
   randomMovie: Movie | undefined
-  randomMovieCast: Cast[] | undefined
+  randomMovieCastList: Cast[] | undefined
+  randomMovieCast: Cast | undefined
   guesses: { movie: Movie, cast: Cast[] }[] = []
   gameWon: boolean = false
   genres: { genres: { id: number, name: string } [] } | undefined
@@ -31,7 +34,9 @@ export class WordlePage {
   constructor(public gameService: GameService) {
     this.gameService.getRandomMovie().subscribe(res => {
       this.randomMovie = res.movie
-      this.randomMovieCast = res.cast
+      this.randomMovieCastList = res.cast
+      this.randomMovieCast = this.randomChoice(res.cast)
+
     })
 
     this.gameService.getGenres().subscribe(res => {
@@ -39,12 +44,17 @@ export class WordlePage {
     })
   }
 
+  randomChoice<T>(arr: T[]): T {
+    return arr[Math.floor(arr.length * Math.random())]
+  }
+
   submitGuess(movie: Movie) {
+    console.log(movie, this.randomMovie)
     if (movie.id == this.randomMovie?.id) {
       this.gameWon = true;
       this.guesses.push({
         movie,
-        cast: this.randomMovieCast as Cast[]
+        cast: this.randomMovieCastList as Cast[]
       })
       return;
     }
@@ -53,7 +63,7 @@ export class WordlePage {
       this.guesses.push({
         movie,
         cast: res.filter(c => {
-          return undefined !== this.randomMovieCast?.find(rc => rc.id == c.id)
+          return undefined !== this.randomMovieCastList?.find(rc => rc.id == c.id)
         })
       })
     })
