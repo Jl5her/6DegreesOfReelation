@@ -2,16 +2,34 @@
 <!--  <span *ngFor="let genre of randomMovie.genre_ids">{{ getGenre(genre) }}, </span>-->
 <!--</p>-->
 
+<p style="text-align: center; width: 20%; margin: 0 auto">
+  The goal of this game is to guess the movie as described below given the year
+  and one cast member. Each guess, if incorrect, will provide you with all
+  common cast between the secret movie and the one guessed. No common cast,
+  nothing will be displayed.
+</p>
+
 <div class="sequence vertical">
   <div class="metadata">
-    <p *ngIf="randomMovie !== undefined">I am thinking of a movie<br>released
-      in: {{ getYear(randomMovie!.release_date) }}</p>
-    <app-cast-icon *ngIf="randomMovieCast !== undefined" [cast]="randomMovieCast!" />
+    <p *ngIf="randomMovie !== undefined">
+      I am thinking of a movie<br />released in:
+      {{ getYear(randomMovie!.release_date) }} with
+    </p>
+    <app-cast-icon
+      *ngIf="randomMovieCast !== undefined"
+      [cast]="randomMovieCast!"
+    />
   </div>
 
-  <div class="guess" *ngFor="let guess of guesses; index as i"
-       [class]="randomMovie?.id == guess.movie.id ? 'correct' : ''">
-    <app-answer [movie]="guess.movie" [class]="guess.movie.id == randomMovie?.id ? 'correct': ''" />
+  <div
+    class="guess"
+    *ngFor="let guess of guesses; index as i"
+    [class]="randomMovie?.id == guess.movie.id ? 'correct' : ''"
+  >
+    <app-answer
+      [movie]="guess.movie"
+      [class]="guess.movie.id == randomMovie?.id ? 'correct' : ''"
+    />
 
     <ng-container class="cast-list" *ngIf="randomMovie?.id !== guess.movie.id">
       <div class="cast-list">
@@ -22,9 +40,7 @@
     </ng-container>
   </div>
 
-
   <div class="center" *ngIf="!gameWon">
     <app-movie-input (onSelected)="submitGuess($event)" />
   </div>
 </div>
-
