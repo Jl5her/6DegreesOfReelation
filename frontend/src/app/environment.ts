@@ -1,3 +1,3 @@
 export const config = {
-  API_URL: 'http://localhost'
+  API_URL: 'https://api-reelation.jackp.me'
 }

@@ -4,8 +4,8 @@
   font-family: FilmLetters;
 }
 
-
-html, body {
+html,
+body {
   height: 100vh;
   color: white;
   font-size: 18px;
@@ -20,3 +20,36 @@ body {
 h3 {
   margin-bottom: 0 !important;
 }
+
+.description {
+  text-align: center;
+  width: 20%;
+  margin: 0 auto;
+}
+
+@media screen {
+  .description {
+    width: auto;
+    margin: 1rem;
+  }
+}
+
+.movie-input {
+  position: fixed;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+
+#suggestions {
+  position: absolute;
+  bottom: calc(100% + .5rem);
+}
+
+// .center {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
