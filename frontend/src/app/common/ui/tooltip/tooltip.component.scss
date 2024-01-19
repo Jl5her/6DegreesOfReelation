@@ -1,8 +1,8 @@
 .tooltip {
   position: fixed;
-  background-color: black;
+  background-color: var(--black);
   border-radius: 4px;
-  color: white;
+  color: var(--white);
   font-family: Arial, sans-serif;
   padding: 3px 6px;
   font-size: 13px;

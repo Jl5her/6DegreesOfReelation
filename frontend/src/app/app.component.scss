@@ -1,11 +1,7 @@
-.title {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+.header {
   margin: 1rem;
 
-  color: white;
+  color: var(--white);
   font-family: Inter, sans-serif;
   text-transform: uppercase;
 

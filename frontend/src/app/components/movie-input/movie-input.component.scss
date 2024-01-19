@@ -1,25 +1,35 @@
-.movie-input {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+//position: fixed;
+//bottom: 0.5rem;
+
+::ng-deep #suggestions {
+  position: absolute;
+  bottom: calc(100% + .5rem);
 }
 
-.ng-autocomplete {
-  background: #E0E0E0;
-  width: 350px;
-}
 
-::ng-deep .ng-autocomplete input {
-  font-size: 18px !important;
-  padding: 2rem;
-  border-radius: 4px
-}
+::ng-deep .ng-autocomplete {
+  max-width: 380px;
 
-.movie-input {
-  .ng-autocomplete {
-    width: 300px;
+  .autocomplete-container {
+    .input-container {
+      input {
+        background-color: var(--white);
+        border-radius: 4px;
+        font-size: 1.25em;
+        height: 48px;
+        padding: 16px;
+        z-index: 10000;
+      }
+    }
   }
 }
+
+//
+//.movie-input {
+//  .ng-autocomplete {
+//    width: 300px;
+//  }
+//}
 
 .is-invalid input {
   border: 3px solid red;
@@ -30,12 +40,21 @@
 }
 
 button {
-  background: blue;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  box-shadow: none;
+  font-family: Arial, sans-serif;
+  text-transform: uppercase;
   height: 50px;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 0 14px;
+
+  border: 0;
+  background-color: var(--blue);
+  color: var(--white);
+  font-weight: 700;
+  box-shadow: none;
+  margin: 0 6px;
+  z-index: 10000;
 }
 
 
@@ -46,8 +65,9 @@ button {
   50% {
     transform: translateX(4px);
   }
-  100%{
-    transform: translateX(4px);}
+  100% {
+    transform: translateX(4px);
+  }
 }
 
 
@@ -61,9 +81,10 @@ button {
     -webkit-transform: translateX(4px);
     transform: translateX(4px);
   }
-  100%{
+  100% {
     -webkit-transform: translateX(4px);
-    transform: translateX(4px);}
+    transform: translateX(4px);
+  }
 }
 
 @-moz-keyframes shake {
@@ -75,9 +96,10 @@ button {
     -moz-transform: translateX(4px);
     transform: translateX(4px);
   }
-  100%{
+  100% {
     -moz-transform: translateX(4px);
-    transform: translateX(4px);}
+    transform: translateX(4px);
+  }
 }
 
 @-o-keyframes shake {
@@ -89,7 +111,7 @@ button {
     -o-transform: translateX(4px);
     transform: translateX(4px);
   }
-  100%{
+  100% {
     -o-transform: translateX(4px);
     transform: translateX(4px);
   }
@@ -104,7 +126,7 @@ button {
     -ms-transform: translateX(4px);
     transform: translateX(4px);
   }
-  100%{
+  100% {
     -ms-transform: translateX(4px);
     transform: translateX(4px);
   }

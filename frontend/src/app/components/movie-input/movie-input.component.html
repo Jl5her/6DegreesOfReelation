@@ -1,34 +1,4 @@
-<!--<div class="poster">-->
-<!--  <img alt="unknown" class="cast-img" src="/assets/questionmark.jpg">-->
-
-<!--</div>-->
-
-<!--<div class="poster">-->
-<!--  <img [alt]="selectedMovie == undefined ? 'unknown' : selectedMovie.title" class="movie-img" [src]="posterPath()">-->
-<!--<mat-form-field class="is-invalid" [style.width.rem]="18">-->
-<!--  <input matInput-->
-<!--         autofocus-->
-<!--         [class]="getClass()"-->
-<!--         placeholder="Type a Movie..."-->
-<!--         [(ngModel)]="valueString"-->
-<!--         (input)="onInputChange($event)" />-->
-
-<!--  TODO: Needs Autocomplete-->
-
-<!--  <button mat-icon-button matSuffix>-->
-<!--    <span class="material-icons">x</span>-->
-<!--  </button>-->
-<!--  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"-->
-<!--                    (optionSelected)="selectedChange($event.option.value)">-->
-<!--    <mat-option *ngFor="let suggestion of suggestions" [value]="suggestion">-->
-<!--      {{ displayFn(suggestion) }}-->
-<!--    </mat-option>-->
-<!--  </mat-autocomplete>-->
-<!--</mat-form-field>-->
-<!--</div>-->
-
-<!--<input />-->
-<div class="movie-input">
+<div class="footer">
   <div class="ng-autocomplete">
     <ng-autocomplete
       #auto
@@ -41,12 +11,9 @@
       (inputFocused)="onFocused($event)"
       [itemTemplate]="itemTemplate">
     </ng-autocomplete>
-
     <ng-template #itemTemplate let-item>
       <a [innerHtml]="this.displayFn(item)"></a>
-      <!--    <a [innerHTML]="item.title"></a>-->
     </ng-template>
-
   </div>
 
   <button (click)="submit()">Submit</button>

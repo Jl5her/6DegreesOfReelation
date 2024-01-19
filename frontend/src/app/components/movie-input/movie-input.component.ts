@@ -26,6 +26,7 @@ export class MovieInputComponent {
   @ViewChild('auto') auto: AutocompleteComponent | undefined;
 
   suggestions: Movie[] = [];
+
   class: string = ""
   showSubmit: boolean = false;
   selected: Movie | undefined;
@@ -40,8 +41,9 @@ export class MovieInputComponent {
         switchMap(q => this.searchService.searchMovies(q))
       ).subscribe(suggestions => {
       this.suggestions = suggestions
+        .filter(m => m.release_date != "")
+        .sort(m => m.popularity)
     })
-    console.log('Search subject connected')
   }
 
   async selectedEvent(item: Movie) {
@@ -61,7 +63,8 @@ export class MovieInputComponent {
     this.searchSubject.next(val)
   }
 
-  onFocused(_e: any) {  }
+  onFocused(_e: any) {
+  }
 
   displayFn(item: Movie): string {
     return `${item.title} (${getYear(item.release_date)})`;

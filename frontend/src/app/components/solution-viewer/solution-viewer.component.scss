@@ -32,8 +32,8 @@
     .cast-img, .movie-img {
       padding: 0.5rem;
       border-radius: 3px;
-      box-shadow: 1px 1px 8px #AAA;
-      background: white;
+      box-shadow: 1px 1px 8px var(--gray);
+      background-color: var(--white);
     }
 
     .cast-img {

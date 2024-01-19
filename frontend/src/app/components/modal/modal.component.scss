@@ -1,0 +1,82 @@
+app-modal {
+  display: none;
+
+  .app-modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 100000;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    overflow: auto;
+  }
+
+  .app-modal-body {
+    padding: 32px;
+    background-color: rgb(18, 18, 19);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 23px 0;
+    border-radius: 8px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    width: 100%;
+    max-width: 520px;
+    box-sizing: border-box;
+
+    .close-modal {
+      background-color: transparent;
+      border: none;
+
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      cursor: pointer;
+      color: var(--white);
+
+      svg {
+        width: 30px;
+        height: 30px;
+        fill: var(--white);
+      }
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin: 0;
+      font-weight: normal;
+    }
+
+    h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0;
+      line-height: 20px;
+    }
+
+    hr {
+      background-color: var(--gray);
+      border: none;
+      height: 1px;
+      margin: 16px 0;
+    }
+  }
+}
+
+body .app-modal-open {
+  overflow: hidden;
+}
+
+@media (min-width: 500px) {
+  .app-modal-body {
+    width: 90%;
+  }
+
+}

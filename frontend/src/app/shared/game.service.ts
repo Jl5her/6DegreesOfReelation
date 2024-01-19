@@ -39,7 +39,7 @@ export class GameService {
 
   getRandomMovie(): Observable<{ movie: Movie, cast: Cast[] }> {
     return this.httpClient
-      .get<{ movie: Movie, cast: Cast[] }>(this.endpoint + '/random_movie')
+      .get<{ movie: Movie, cast: Cast[] }>(this.endpoint + '/random_movie?include_animation=False')
       .pipe(retry(1), catchError(this.processError))
   }
 

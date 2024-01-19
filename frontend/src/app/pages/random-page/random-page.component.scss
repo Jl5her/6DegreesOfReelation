@@ -1,3 +1,10 @@
+::ng-deep app-random-page {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .cast-list {
   display: flex;
   flex-direction: row;
@@ -9,7 +16,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: white;
+  color: var(--white);
   font-size: 24px;
   text-align: center;
 }
@@ -33,113 +40,4 @@
       margin: 0.5rem;
     }
   }
-}
-
-.sequence {
-  width: 100vw;
-  height: 70vh;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  &.vertical {
-    flex-direction: column;
-  }
-}
-
-.circles {
-  display: flex;
-  flex-direction: row;
-
-  .circle {
-    margin: 3px;
-    width: 15px;
-    height: 15px;
-    background: white;
-    border-radius: 100%;
-  }
-
-  &.loading .circle {
-    animation: shake 2s infinite;
-    -webkit-animation: shake 2s infinite;
-    -moz-animation: shake 2s infinite;
-    -o-animation: shake 2s infinite;
-
-    &:nth-child(odd) {
-      animation-delay: 1s;
-      -webkit-animation-delay: 1s;
-      -moz-animation-delay: 1s;
-      -o-animation-delay: 1s;
-    }
-  }
-}
-
-@keyframes shake {
-  0% {
-    transform: translateY(-6px);
-  }
-  50% {
-    transform: translateY(6px);
-  }
-  100%{
-    transform: translateY(-6px);}
-}
-
-/* Vendor prefixes */
-@-webkit-keyframes shake {
-  0% {
-    -webkit-transform: translateY(-6px);
-    transform: translateY(-6px);
-  }
-  50% {
-    -webkit-transform: translateY(6px);
-    transform: translateY(6px);
-  }
-  100%{
-    -webkit-transform: translateY(-6px);
-    transform: translateY(-6px);}
-}
-
-@-moz-keyframes shake {
-  0% {
-    -moz-transform: translateY(-6px);
-    transform: translateY(-6px);
-  }
-  50% {
-    -moz-transform: translateY(6px);
-    transform: translateY(6px);
-  }
-  100%{
-    -moz-transform: translateY(-6px);
-    transform: translateY(-6px);}
-}
-
-@-o-keyframes shake {
-  0% {
-    -o-transform: translateY(-6px);
-    transform: translateY(-6px);
-  }
-  50% {
-    -o-transform: translateY(6px);
-    transform: translateY(6px);
-  }
-  100%{
-    -o-transform: translateY(-6px);
-    transform: translateY(-6px);}
-}
-
-@-ms-keyframes shake {
-  0% {
-    -ms-transform: translateY(-6px);
-    transform: translateY(-6px);
-  }
-  50% {
-    -ms-transform: translateY(6px);
-    transform: translateY(6px);
-  }
-  100%{
-    -ms-transform: translateY(-6px);
-    transform: translateY(-6px);}
 }
