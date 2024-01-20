@@ -161,6 +161,7 @@ export class GamePage implements AfterViewInit {
       this.start = res.start
       this.end = res.end
       this.gameId = res.id
+      console.log(`Game Id: ${this.gameId}`)
       this.start_answers = []
       this.end_answers = []
     })
