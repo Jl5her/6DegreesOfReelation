@@ -1,20 +1,17 @@
 <app-modal id="modal-1">
   <h2>How To Play</h2>
   <h3>Link two Movies.</h3>
-  <p class="description">
-    Two movies were selected randomly with 6
-    The goal of the game is to find as few movies as possible to connect the
-    first two using common cast.<br />
-    For example: If the movies were Sherlock Holmes and Chef you could say Iron
-    man because Robert Downey Jr.
-    <br />
-    is in both Sherlock Holmes and Iron Man and Jon Favreu is in both Iron Man
-    and Chef.
-  </p>
-  <p>
-    <b>Examples</b>
-  </p>
-  <!--  <button (click)="modalService.close();">Close</button>-->
+  <p>Using common cast and one or more movie(s), link the two given movies.</p>
+  <div id="example">
+    <b>Example</b>
+    <app-answer name="Grand Budapest Hotel" [year]="2014" />
+    <app-answer name="Interstellar" [year]="2014" />
+  </div>
+  <ol>
+    <li>Starting with <b>The Dark Knight Rises (2012)</b>, because they both feature Tom Hardy.</li>
+    <li>Then <b>Inception (2010)</b>, because Dark Knight and Interstellar both feature Michael Caine.</li>
+  </ol>
+  <p>These steps can be submitted in either order.</p>
 </app-modal>
 
 <app-modal id="win">

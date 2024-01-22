@@ -47,39 +47,6 @@ main {
   width: calc(100% - 28px);
 }
 
-.header {
-  display: grid;
-  grid-template-columns: 50px 1fr 50px;
-  flex: none;
-
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  svg {
-    fill: var(--white);
-    width: 36px;
-    height: 36px;
-    text-align: center;
-
-  }
-
-  a {
-    &:last-child {
-      margin-right: 0;
-      margin-left: auto;
-    }
-
-    &:first-child {
-      margin-left: 0;
-      margin-right: auto;
-    }
-  }
-}
-
 h3 {
   margin-bottom: 0 !important;
 }
@@ -211,6 +178,7 @@ ul.statistics {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-top: 1rem;
 
   &.vertical {
     flex-direction: column;

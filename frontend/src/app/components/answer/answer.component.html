@@ -1,9 +1,9 @@
-<div class="answer" [class]="class" *ngIf="movie !== undefined">
+<div class="answer" [class]="class">
   <!--  <img [alt]="movie.title" class="movie-img" [src]="getPosterPath(movie.poster_path)">-->
   <!--    TODO: Add Tooltip-->
 
-  <span class="title">{{ movie.title }}</span>
-  <span class="year">{{ getYear(movie.release_date) }}</span>
+  <span class="title">{{ movie?.title ?? name }}</span>
+  <span class="year">{{ getYear(movie?.release_date) ?? year }}</span>
 
   <!--    <mat-form-field>-->
   <!--      <input matInput disabled [value]="start.title" [alt]="start.title" [matTooltip]="start.title" />-->

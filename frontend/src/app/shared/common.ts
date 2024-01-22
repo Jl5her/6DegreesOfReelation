@@ -1,5 +1,5 @@
-export function getYear(release_date: string): number {
-  return parseInt(release_date.split('-')[0])
+export function getYear(release_date: string | undefined): number | undefined {
+  return release_date ? parseInt(release_date.split('-')[0]) : undefined;
 }
 
 export function getPosterPath(poster_path: string) {

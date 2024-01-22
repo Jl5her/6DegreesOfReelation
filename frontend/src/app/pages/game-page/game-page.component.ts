@@ -93,7 +93,6 @@ export class GamePage implements AfterViewInit {
       this.modalService.open('modal-1')
       localStorage.setItem(itemName, Date.now().toString())
     }
-    // this.modalService.open('win')
   }
 
   classList() {

@@ -10,6 +10,7 @@
   flex: auto;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   height: auto;
   overflow: auto;
 }
@@ -39,5 +40,27 @@
       font-size: 1.66rem;
       margin: 0.5rem;
     }
+  }
+}
+
+#example {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  ::ng-deep app-answer {
+    font-size: 14px;
+    .answer {
+      padding: 0;
+      margin: 4px 0;
+    }
+  }
+
+  b{
+    align-self: start;
+  }
+
+  ::ng-deep app-answer {
   }
 }
